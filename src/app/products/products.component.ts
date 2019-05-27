@@ -42,17 +42,14 @@ export class ProductsComponent implements OnInit {
   ];
 
   textArr = [];
-
+  msg: any;
   speakText = this.products.forEach((product)=>{
     this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `)
   });
-
-  // spekText: any;
  
   ngOnInit() {
       
-      // DATA COMING FROM CMS
-      
+      // CMS DATA CONNECTION
       this.productData.getStory('/', {version: 'draft', starts_with: 'women/'})
       .then(data => {
         this.products = data.stories
@@ -63,37 +60,20 @@ export class ProductsComponent implements OnInit {
         
       }); 
       
-      
-            // let textArr = [];
       // TEXT TO SPEECH
-      setTimeout(()=>{
-
-     
+      setTimeout(()=>{     
       const msg = new SpeechSynthesisUtterance();
           msg.volume = 1; // 0 to 1
           msg.rate = 1; // 0.1 to 10
-          msg.pitch = 1; // 0 to 2
-          // this.msg.text  = `Available Products
-          //             ${this.products[0].title}, It's price ${this.products[0].price} SEK
-          //             ${this.products[1].title}, It's price ${this.products[1].price} SEK
-          //             ${this.products[2].title}, It's price ${this.products[2].price} SEK`
-          
-          msg.text  = this.textArr;
+          msg.pitch = 1.5; // 0 to 2
+          msg.text  = `${this.textArr}`;
           const voice = this.speaks[0]; //47
           // console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
           // msg.voiceURI = voice.name;
           msg.lang = voice.lang;
           speechSynthesis.speak(msg);
       }, 3000)
-
-      console.log(this.textArr);
-
-      // for(let product of this.products){
-      //    this.textArr.push(product.content.title)
-      // }
-
-
-
+      // console.log(this.textArr);
   }
 
 }
