@@ -5,11 +5,11 @@
     <div class="col-md-4 p-3" *ngFor="let product of products">
        <div class="card flex-row flex-wrap p-3">
            <div class="card-header border-0">
-               <img src="" class="card-img-top">
+               <img [src]="product.content.thumbnail" class="card-img-top">
            </div>
            <div class="card-block px-2">
-               <h5 class="card-title"> {{product.title}} </h5>
-               <p class="card-text">Price: {{product.price}} </p>
+               <h5 class="card-title"> {{product.content.title}} </h5>
+               <p class="card-text">Price: {{product.content.price}} SEK</p>
                <a [routerLink]="" class="btn btn-outline-info btn-sm">More details</a>
            </div>
        </div>
