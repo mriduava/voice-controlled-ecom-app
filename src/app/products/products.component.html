@@ -1,0 +1,19 @@
+<div class="container mt-3">
+  <h4 class="text-center text-warning pt-4">PRODUCTS AVAILABLE</h4>
+  <div class="row p-3">
+
+    <div class="col-md-4 p-3" *ngFor="let product of products">
+       <div class="card flex-row flex-wrap p-3">
+           <div class="card-header border-0">
+               <img src="" class="card-img-top">
+           </div>
+           <div class="card-block px-2">
+               <h5 class="card-title"> {{product.title}} </h5>
+               <p class="card-text">Price: {{product.price}} </p>
+               <a [routerLink]="" class="btn btn-outline-info btn-sm">More details</a>
+           </div>
+       </div>
+    </div>
+
+  </div>
+</div>
