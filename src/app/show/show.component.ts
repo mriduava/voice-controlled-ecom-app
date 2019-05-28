@@ -9,7 +9,7 @@ import { StoryblokService } from '../storyblok.service';
 })
 export class ShowComponent implements OnInit {
 
-  product = [];
+  product: any = [];
 
   textArr = [];
 
