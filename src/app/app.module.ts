@@ -9,6 +9,7 @@ import { ProductsComponent } from './products/products.component';
 import { StoryblokService } from './storyblok.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ShowComponent } from './show/show.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ShowComponent } from './show/show.component';
     HomeComponent,
     NavComponent,
     ProductsComponent,
-    ShowComponent
+    ShowComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
