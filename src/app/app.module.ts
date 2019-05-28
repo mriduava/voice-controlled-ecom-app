@@ -8,13 +8,15 @@ import { NavComponent } from './nav/nav.component';
 import { ProductsComponent } from './products/products.component';
 import { StoryblokService } from './storyblok.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ShowComponent } from './show/show.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavComponent,
-    ProductsComponent
+    ProductsComponent,
+    ShowComponent
   ],
   imports: [
     BrowserModule,

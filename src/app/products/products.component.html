@@ -10,7 +10,7 @@
            <div class="card-block px-2">
                <h5 class="card-title"> {{product.content.title}} </h5>
                <p class="card-text">Price: {{product.content.price}} SEK</p>
-               <a [routerLink]="" class="btn btn-outline-info btn-sm">More details</a>
+               <a [routerLink]="['/products', product.id]" class="btn btn-outline-info btn-sm">More details</a>
            </div>
        </div>
     </div>
