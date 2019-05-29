@@ -1,6 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
+import {Router} from '@angular/router';
+
+export interface IWindow extends Window {
+  webkitSpeechRecognition: any;
+}
 
 @Component({
   selector: 'app-products',
@@ -9,7 +14,7 @@ import { StoryblokService } from '../storyblok.service';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private productData: StoryblokService) { }
+  constructor(private route: ActivatedRoute, private productData: StoryblokService,  private zone: NgZone, private router: Router) { }
 
   @Input() input: string;
 
@@ -23,20 +28,28 @@ export class ProductsComponent implements OnInit {
 
   textArr = [];
 
-  // SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+  selectArr = [];
+    
 
   ngOnInit() {
 
       // CMS DATA CONNECTION
-      this.productData.getStory('/', {version: 'draft', starts_with: 'women/'})
+      this.productData.getStory('/', {version: 'draft', starts_with: 'men/'})
       .then(data => {
         this.products = data.stories;
 
         this.products.forEach((product) => {
+          // var productId = product.id;
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
         });
 
+        
+      // for(let product of this.products){
+      //   this.selectArr.push(product.content.title)
+      // }
+
       });
+
 
       // TEXT TO SPEECH
       const sayText = () => {
@@ -58,6 +71,94 @@ export class ProductsComponent implements OnInit {
       // document.querySelector('#btnGiveCommand').addEventListener('click', function(){
       //     recognition.start();
       // });
+
+      const goLinen = () => {
+        // const productId = this.route.snapshot.params.id;
+        this.zone.run(() => this.router.navigate(['/products', 989868], { relativeTo: this.route }))
+        speechSynthesis.cancel();
+      }
+  
+      const goToCart = () => {
+        this.zone.run(() => this.router.navigateByUrl('/cart'))
+        speechSynthesis.cancel();
+      }
+
+      const goBlue = () => {
+        this.zone.run(() => this.router.navigate(['/products', 989866], { relativeTo: this.route }))
+        speechSynthesis.cancel();
+      }
+
+      const goBlack = () => {
+        this.zone.run(() => this.router.navigate(['/products', 989820], { relativeTo: this.route }))
+        speechSynthesis.cancel();
+      }
+
+      const goBlackWhite = () => {
+        this.zone.run(() => this.router.navigate(['/products', 989818], { relativeTo: this.route }))
+        speechSynthesis.cancel();
+      }
+
+
+
+
+  
+      // SPEECH TO TEXT    
+      const {webkitSpeechRecognition} : IWindow = <IWindow>window;
+      const recognition = new webkitSpeechRecognition();
+      var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
+      
+      var grammar = '#JSGF V1.0;'
+      var speechRecognitionList = new SpeechGrammarList();
+      speechRecognitionList.addFromString(grammar, 1);
+      recognition.grammars = speechRecognitionList;
+      recognition.lang = 'en-US';
+      // recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.onresult = function(event) {
+          let last = event.results.length - 1;
+          let command = event.results[last][0].transcript;
+          
+          console.log(command);
+      
+           
+
+            // if(command.toLowerCase() === `linen formal shirt`){          
+            //   console.log(this.products);
+            //   // goToPro();
+            // }else if(command.toLowerCase() === 'bye'){  
+            //   goToCart();
+            // }
+
+            // let obj = this.products.find((o, i) =>{
+            //   if((o.title).toLowerCase() === command.toLowerCase()){
+            //     console.log(obj);
+            //   }
+            // })
+         
+         
+
+
+          if(command.toLowerCase() === 'linen formal shirt'){          
+            // console.log('I am listening');
+            goLinen();
+          }else if(command.toLowerCase() === 'blue formal shirt'){  
+            goBlue();
+          }else if(command.toLowerCase() === 'black collar t-shirt'){  
+            goBlack();
+          }else if(command.toLowerCase() === 'black white t-shirt'){  
+            goBlackWhite();
+          }
+        
+      };
+      recognition.onspeechend = function() {
+          recognition.stop();
+      };
+      recognition.onerror = function(event) {
+        console.log(event.error);
+      }        
+      document.querySelector('#speak').addEventListener('click', function(){
+          recognition.start();
+      });
 
 
 

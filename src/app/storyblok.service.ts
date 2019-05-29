@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class StoryblokService {
 
   private sbClient = new Client({
-    accessToken: 'vzwC59CqmD9irvJTGSQVKAtt'
+    accessToken: 'lWJ1SBQBBo9qsPQFHmG3RQtt'
   });
 
   constructor(private dataConnect: HttpClient, private route: ActivatedRoute) { }

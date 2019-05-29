@@ -15,12 +15,12 @@
        <div class="col-lg-3 m-0">
        <div class="card-block py-5">
            <h3 class="card-title text-secondary"> {{product.title}} </h3>
-           <p class="card-text"> {{product.summary}} </p>
-           <h5 class="text-info">Price: {{product.price}} </h5>
-            <label class="text-secondary" for="quantity">Quantity</label>
-           <input name="quantity" min="1" type="number" class="quantity" v-model="product.quantity">
-           <button class="btn btn-success btn-sm">ADD TO BAG</button>
-           <button id="speak" class="btn btn-warning btn-sm ml-4">SPEAK</button>
+           <p class="card-text">{{product.summary}} </p>
+           <h5 class="text-info">Price: {{product.price}} SEK</h5>
+            <!-- <label class="text-secondary" for="quantity">Quantity</label> -->
+           <!-- <input name="quantity" min="1" type="number" class="quantity" v-model="product.quantity"> -->
+           <button class="btn btn-success btn-sm mt-4">ADD TO BAG</button>
+           <button id="speak" class="btn btn-warning btn-sm ml-4 mt-4">SPEAK</button>
 
          <div class="mt-3">
            <!-- <router-link to="/men" class="btn btn-outline-info btn-sm"><i class="fa fa-angle-left"></i> Continue Shopping</router-link>

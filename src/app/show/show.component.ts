@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import {Router} from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
 
-
-
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
 }
@@ -15,19 +13,13 @@ export interface IWindow extends Window {
   styleUrls: ['./show.component.css']
 })
 
-
-
 export class ShowComponent implements OnInit {
 
   product: any = [];
 
   textArr = [];
-  ngZone: any;
 
   constructor(private route: ActivatedRoute, private showItem: StoryblokService, private router: Router, private zone: NgZone) { }
- 
-  // cntToPro: any;
-  
 
   ngOnInit() {
     const productId = this.route.snapshot.params.id;
@@ -36,7 +28,9 @@ export class ShowComponent implements OnInit {
       console.log(data.story);
       this.product = data.story.content;
 
-      this.textArr.push(`${this.product.title} has been selected, It's price ${this.product.price} SEK ... `);
+      this.textArr.push(`${this.product.title} has been selected, 
+                         ${this.product.summary} ...
+                         It's price ${this.product.price} SEK ... `);
       console.log(this.textArr);
     });
 
@@ -55,7 +49,7 @@ export class ShowComponent implements OnInit {
         };
         setTimeout(textSpeech, 3000);
       };
-    sayText();
+    // sayText();
 
     
     const goToPro = () => {
@@ -69,15 +63,11 @@ export class ShowComponent implements OnInit {
     }
 
     // SPEECH TO TEXT    
-
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;
     const recognition = new webkitSpeechRecognition();
-    // var SpeechRecognition = window['SpeechRecognition'] || Window['webkitSpeechRecognition'];
-    // var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
     var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
     
     var grammar = '#JSGF V1.0;'
-    // var recognition = new SpeechRecognition();
     var speechRecognitionList = new SpeechGrammarList();
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
@@ -97,7 +87,6 @@ export class ShowComponent implements OnInit {
           goToCart();
         }
       
-
     };
     recognition.onspeechend = function() {
         recognition.stop();
