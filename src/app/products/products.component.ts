@@ -23,6 +23,8 @@ export class ProductsComponent implements OnInit {
 
   textArr = [];
 
+  // SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+
   ngOnInit() {
 
       // CMS DATA CONNECTION
@@ -50,7 +52,16 @@ export class ProductsComponent implements OnInit {
         }
         setTimeout(textSpeech, 3000)
       };
-      sayText();
+      // sayText();
+
+      
+      // document.querySelector('#btnGiveCommand').addEventListener('click', function(){
+      //     recognition.start();
+      // });
+
+
+
+
   }
 
 }
