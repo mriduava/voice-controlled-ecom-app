@@ -3,6 +3,7 @@ import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events'
 import { ActivatedRoute } from '@angular/router';
 import {Router} from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
+import { StoreService } from '../store.service';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -21,7 +22,7 @@ export class ShowComponent implements OnInit {
   textArr = [];
 
   constructor(private route: ActivatedRoute, private showItem: StoryblokService, private router: Router, 
-              private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
+              private zone: NgZone, private keyListen: NgxKeyboardEventsService, private store: StoreService) { }
 
   ngOnInit() {
     const productId = this.route.snapshot.params.id;
@@ -41,6 +42,11 @@ export class ShowComponent implements OnInit {
                          Please press S, and then say Continue. ... ...`);
       console.log(this.textArr);
     });
+
+    // ADD TO CART
+    const addToCart = () => {
+      this.store.cartData = this.product;
+    }
 
     // TEXT TO SPEECH
     const sayText = () => {
@@ -103,6 +109,8 @@ export class ShowComponent implements OnInit {
           goToPro();
         }else if(command.toLowerCase() === 'cart'){  
           goToCart();
+        }else if(command.toLowerCase() === 'bye'){  
+          addToCart();
         }
       
     };
@@ -111,10 +119,12 @@ export class ShowComponent implements OnInit {
     };
     recognition.onerror = function(event) {
       console.log(event.error);
-    }        
+    }  
 
 
   }
+
+
 
 }
 
