@@ -1,10 +1,21 @@
 <div class="container-fluid mt-3">
-  <h4 class="text-center text-warning pt-4">PRODUCTS AVAILABLE</h4>
-  <button id="speak" class="">SPEAK</button>
-  <div class="row">
 
+  <div class="row">
+    <div class="col-12">
+        <div class="my-2">
+            <ul class="intro-text">
+                <li>To listen available products, please press "P"</li> 
+                <li class="text-select">To select an item ...</li>
+                <li>Press "<span class="s">S</span>", and then say the "<span class="p-name">Product Name</span>"</li>
+            </ul>
+            <h4 class="text-center text-warning pt-4">PRODUCTS AVAILABLE</h4>
+          </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-md-4 col-lg-3 com-sm-6" *ngFor="let product of products">
-      <a class="link" [routerLink]="['/products', product.id]"> 
+      <a class="route-link" [routerLink]="['/products', product.id]"> 
       <div class="card">
            <div class="card-header">
                <img [src]="product.content.thumbnail" class="card-img-top">

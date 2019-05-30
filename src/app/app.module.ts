@@ -10,6 +10,7 @@ import { StoryblokService } from './storyblok.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ShowComponent } from './show/show.component';
 import { CartComponent } from './cart/cart.component';
+import { NgxKeyboardEventsModule } from 'ngx-keyboard-events';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CartComponent } from './cart/cart.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxKeyboardEventsModule
   ],
   providers: [
     StoryblokService
