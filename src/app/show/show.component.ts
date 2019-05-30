@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { ActivatedRoute } from '@angular/router';
 import {Router} from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
@@ -19,7 +20,8 @@ export class ShowComponent implements OnInit {
 
   textArr = [];
 
-  constructor(private route: ActivatedRoute, private showItem: StoryblokService, private router: Router, private zone: NgZone) { }
+  constructor(private route: ActivatedRoute, private showItem: StoryblokService, private router: Router, 
+              private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
 
   ngOnInit() {
     const productId = this.route.snapshot.params.id;
@@ -30,11 +32,17 @@ export class ShowComponent implements OnInit {
 
       this.textArr.push(`${this.product.title} has been selected, 
                          ${this.product.summary} ...
-                         It's price ${this.product.price} SEK ... `);
+                         It's price ${this.product.price} SEK ... ...
+                         To Buy the Product,
+                         Please press S, and then say Buy. ... ...
+                         To go to Cart,
+                         Please press S, and then say Cart. ... ...
+                         To go to Product page,
+                         Please press S, and then say Continue. ... ...`);
       console.log(this.textArr);
     });
 
-      // TEXT TO SPEECH
+    // TEXT TO SPEECH
     const sayText = () => {
         const textSpeech = () => {
           const speaks = [{name: 'Alex', lang: 'en-US'}];
@@ -47,9 +55,9 @@ export class ShowComponent implements OnInit {
           msg.lang = voice.lang;
           speechSynthesis.speak(msg);
         };
-        setTimeout(textSpeech, 3000);
+        setTimeout(textSpeech, 2000);
       };
-    // sayText();
+    sayText();
 
     
     const goToPro = () => {
@@ -61,6 +69,16 @@ export class ShowComponent implements OnInit {
       this.zone.run(() => this.router.navigateByUrl('/cart'))
       speechSynthesis.cancel();
     }
+
+    this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
+      console.log('key event', keyEvent);
+      if(keyEvent.code == 83){
+        recognition.start();
+      }else if(keyEvent.code == 80) {
+        sayText();
+        speechSynthesis.cancel();
+      }
+    });
 
     // SPEECH TO TEXT    
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;
@@ -83,7 +101,7 @@ export class ShowComponent implements OnInit {
         if(command.toLowerCase() === 'continue'){          
           console.log('I am listening');
           goToPro();
-        }else if(command.toLowerCase() === 'bye'){  
+        }else if(command.toLowerCase() === 'cart'){  
           goToCart();
         }
       
@@ -94,9 +112,6 @@ export class ShowComponent implements OnInit {
     recognition.onerror = function(event) {
       console.log(event.error);
     }        
-    document.querySelector('#speak').addEventListener('click', function(){
-        recognition.start();
-    });
 
 
   }

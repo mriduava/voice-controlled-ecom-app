@@ -7,10 +7,10 @@ import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events'
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
 }
-export enum KEY_CODE {
-  S_KEY = 83,
-  P_KEY = 80
-}
+// export enum KEY_CODE {
+//   S_KEY = 83,
+//   P_KEY = 80
+// }
 
 
 
@@ -21,7 +21,7 @@ export enum KEY_CODE {
 })
 export class ProductsComponent implements OnInit {
 
-  private speechText2: Function;
+  // private speechText2: Function;
 
   
 
@@ -59,7 +59,7 @@ export class ProductsComponent implements OnInit {
 
 
       // TEXT TO SPEECH      
-      const sayIntro = () => {
+      // const sayIntro = () => {
         const intro = `To listen available products, please press "P". ... ....
                        To select an item. ...
                        Press "S", and then say the "Product Name". ...`
@@ -70,34 +70,29 @@ export class ProductsComponent implements OnInit {
           msg.lang = 'en-US';
           speechSynthesis.speak(msg);
         }
-        setInterval(textSpeech, 50000)
-      };
+        // setInterval(textSpeech, 2000)
+        textSpeech()
+      // };
       // sayIntro();
 
-      // const sayText = () => {
-      //   const textSpeech = () => {
-      //     const msg = new SpeechSynthesisUtterance();
-      //     // msg.volume = 1;
-      //     // msg.rate = 1;
-      //     // msg.pitch = 1.5;
-      //     msg.text  = `${this.textArr}`;
-      //     // const voice = this.speaks[0];
-      //     // msg.lang = voice.lang;
-      //     msg.lang = 'en-US';
-      //     speechSynthesis.speak(msg);
-      //   }
-      //   setTimeout(textSpeech, 3000)
-      // };
+      const sayText = () => {
+        const textSpeech = () => {
+          const msg = new SpeechSynthesisUtterance();
+          // msg.volume = 1;
+          // msg.rate = 1;
+          // msg.pitch = 1.5;
+          msg.text  = `${this.textArr}`;
+          // const voice = this.speaks[0];
+          // msg.lang = voice.lang;
+          msg.lang = 'en-US';
+          speechSynthesis.speak(msg);
+        }
+        setTimeout(textSpeech, 500)
+      };
       // sayText();
 
-
-
-
-
-
-      const goLinen = () => {
-        // const productId = this.route.snapshot.params.id;
-        this.zone.run(() => this.router.navigate(['/products', 989868], { relativeTo: this.route }))
+      const goHome = () => {
+        this.zone.run(() => this.router.navigateByUrl('/'))
         speechSynthesis.cancel();
       }
   
@@ -106,8 +101,9 @@ export class ProductsComponent implements OnInit {
         speechSynthesis.cancel();
       }
 
-      const goHome = () => {
-        this.zone.run(() => this.router.navigateByUrl('/'))
+      const goLinen = () => {
+        // const productId = this.route.snapshot.params.id;
+        this.zone.run(() => this.router.navigate(['/products', 989868], { relativeTo: this.route }))
         speechSynthesis.cancel();
       }
 
@@ -131,8 +127,11 @@ export class ProductsComponent implements OnInit {
         if(keyEvent.code == 83){
           console.log('hi i m Ss');
           recognition.start();
+        }else if(keyEvent.code == 80) {
+          sayText();
+          speechSynthesis.cancel();
         }
-    });
+      });
 
   
       // SPEECH TO TEXT    
@@ -181,25 +180,5 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  sayText = () => {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text  = `${this.textArr}`;
-      msg.lang = 'en-US';
-      speechSynthesis.speak(msg);
-  };
-
-  @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    // console.log(event);
-    if (event.keyCode === KEY_CODE.P_KEY) {
-      this.sayText();
-    }
-    // else if (event.keyCode === KEY_CODE.P_KEY) {
-    //   this.speechText();
-    // }
-  }
-
-
-  
 
 }
