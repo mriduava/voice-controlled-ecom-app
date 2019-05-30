@@ -1,0 +1,14 @@
+.navbar-brand{
+    font-size: 2rem;
+    color: bisque;
+}
+
+.fas{
+    color: #fff;
+}
+.circle{
+    width: 60px;
+    height: 60px;
+    background-color: rgb(255, 29, 78);
+    border-radius: 50%;
+}
