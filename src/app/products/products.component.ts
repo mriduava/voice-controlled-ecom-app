@@ -59,21 +59,24 @@ export class ProductsComponent implements OnInit {
 
 
       // TEXT TO SPEECH      
-      // const sayIntro = () => {
         const intro = `To listen available products, please press "P". ... ....
                        To select an item. ...
                        Press "S", and then say the "Product Name". ...`
         const textSpeech = () => {
-          const msg = new SpeechSynthesisUtterance();
-          msg.rate = 0.4;
-          msg.text  = intro;
-          msg.lang = 'en-US';
-          speechSynthesis.speak(msg);
-        }
-        // setInterval(textSpeech, 2000)
-        textSpeech()
-      // };
-      // sayIntro();
+            const msg = new SpeechSynthesisUtterance();
+            msg.rate = 0.4;
+            msg.text  = intro;
+            msg.lang = 'en-US';
+            speechSynthesis.speak(msg);
+        }   
+        (()=>{  
+          let counter = 1;
+            if(counter<4){
+              counter ++
+              setTimeout(textSpeech, 23000);
+          }
+        })();
+        textSpeech();
 
       const sayText = () => {
         const textSpeech = () => {
