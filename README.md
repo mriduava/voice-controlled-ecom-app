@@ -2,7 +2,7 @@
 Online Shop for visually impaired person
 
 
-# THE TEAM & OUR GOAL 
+## THE TEAM & OUR GOAL 
 We are the team of four Collaborators.
 This is our very little attempt to give the light to those people who doesn't have in their life. 
 We tried to build an eCommerce site, from where a visually impaired person can buy products without 
@@ -15,9 +15,11 @@ For example, to listen "Available Products", it is needed to press "P", and then
 it will start to nerrate products names and prices. 
 To listen about an specific item, it needs to press "S" and then the product "title".
 
+![](/screenshot/screen.png)
+
 ## WHAT IS BEHIND THE SCENE
 The project is built on Angular 7.
-We use Firebase for user Login and Registrations
+We use Firebase for user Login and Registrations.
 CMS is used to display the products. We uploaded all our products info to a CMS site, and
 it generates an API.
 To convert Text to Speech & Speech to Text, we used SpeechSynthesis & SpeechRecognition.

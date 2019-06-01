@@ -43,6 +43,7 @@ export class ShowComponent implements OnInit {
     // ADD TO CART
     const addToCart = () => {
       this.store.cartData = this.product;
+      localStorage.setItem('product', JSON.stringify(this.product))
     }
 
     // TEXT TO SPEECH

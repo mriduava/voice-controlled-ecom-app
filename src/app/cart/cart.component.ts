@@ -22,8 +22,7 @@ export class CartComponent implements OnInit {
     this.cartData = this.store.cartData;
     console.log(this.cartData);
 
-    // TEXT TO SPEECH
-  
+    // TEXT TO SPEECH  
       const textSpeech = () => {
         const speaks = [{name: 'Alex', lang: 'en-US'}];
         const msg = new SpeechSynthesisUtterance();
@@ -37,8 +36,7 @@ export class CartComponent implements OnInit {
       };
       setTimeout(textSpeech, 2000);
     
-    
-
+    // FUNCTIONS TO NAVIGATE
     const goToPro = () => {
       this.zone.run(() => this.router.navigateByUrl('/products'))
       speechSynthesis.cancel();
@@ -48,7 +46,8 @@ export class CartComponent implements OnInit {
       this.zone.run(() => this.router.navigateByUrl('/checkout'))
       speechSynthesis.cancel();
     }
-
+     
+    // TO ACTIVE KEY CONTROL
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       console.log('key event', keyEvent);
       if(keyEvent.code == 83){
@@ -73,16 +72,13 @@ export class CartComponent implements OnInit {
     recognition.interimResults = false;
     recognition.onresult = function(event) {
         let last = event.results.length - 1;
-        let command = event.results[last][0].transcript;
-        
-        console.log(command);
-    
+        let command = event.results[last][0].transcript;        
+        console.log(command);    
         if(command.toLowerCase() === 'continue'){          
           goToPro();
         }else if(command.toLowerCase() === 'checkout'){  
           goCheckout();
-        }
-      
+        }      
     };
     recognition.onspeechend = function() {
         recognition.stop();
