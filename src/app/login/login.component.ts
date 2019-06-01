@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
+  
   login() {
     this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
     .then(value => {

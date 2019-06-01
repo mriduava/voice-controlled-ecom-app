@@ -1,7 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { StoreService } from '../store.service';
-import {Router} from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -13,11 +15,15 @@ export interface IWindow extends Window {
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
+  user: Observable<firebase.User>;
 
   cartData: any = [];
 
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService, 
-               private zone: NgZone, private router: Router) { }
+               private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) { 
+                this.user=this.fAuth.authState;
+               }
+
 
   ngOnInit() {
     this.cartData = this.store.cartData;
@@ -47,10 +53,14 @@ export class CartComponent implements OnInit {
       this.zone.run(() => this.router.navigateByUrl('/cart/checkout'))
       speechSynthesis.cancel();
     }
+
+    const goLogin = () => {
+      this.zone.run(() => this.router.navigateByUrl('/login'))
+      speechSynthesis.cancel();
+    }
      
     // TO ACTIVE KEY CONTROL
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      console.log('key event', keyEvent);
       if(keyEvent.code == 83){
         recognition.start();
       }else if(keyEvent.code == 80) {
@@ -77,8 +87,12 @@ export class CartComponent implements OnInit {
         console.log(command);    
         if(command.toLowerCase() === 'continue'){          
           goToPro();
-        }else if(command.toLowerCase() === 'checkout'){  
-          goCheckout();
+        }else if(command.toLowerCase() === 'check out'){ 
+            if(this.user){          
+              goCheckout();
+            }else{
+              goLogin();
+            }          
         }      
     };
     recognition.onspeechend = function() {

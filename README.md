@@ -8,7 +8,7 @@ This is our very little attempt to give the light to those people who doesn't ha
 We tried to build an eCommerce site, from where a visually impaired person can buy products without 
 the help of others.
 
-## HOW TO USE OF OUR SITE
+## HOW TO USE OUR SITE
 Our eCommerce site is fully Voice-Controlled. 
 Anyone can buy product by following the nerrated instructions.
 For example, to listen "Available Products", it is needed to press "P", and then
