@@ -36,11 +36,8 @@ export class ShowComponent implements OnInit {
                          It's price ${this.product.price} SEK ... ...
                          To Buy the Product,
                          Please press S, and then say Buy. ... ...
-                         To go to Cart,
-                         Please press S, and then say Cart. ... ...
                          To go to Product page,
                          Please press S, and then say Continue. ... ...`);
-      console.log(this.textArr);
     });
 
     // ADD TO CART
@@ -107,10 +104,9 @@ export class ShowComponent implements OnInit {
         if(command.toLowerCase() === 'continue'){          
           console.log('I am listening');
           goToPro();
-        }else if(command.toLowerCase() === 'cart'){  
-          goToCart();
         }else if(command.toLowerCase() === 'bye'){  
           addToCart();
+          goToCart();
         }
       
     };

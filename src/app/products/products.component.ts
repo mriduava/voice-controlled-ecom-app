@@ -7,12 +7,6 @@ import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events'
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
 }
-// export enum KEY_CODE {
-//   S_KEY = 83,
-//   P_KEY = 80
-// }
-
-
 
 @Component({
   selector: 'app-products',
@@ -20,22 +14,12 @@ export interface IWindow extends Window {
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-
-  // private speechText2: Function;
-
   
-
   constructor(private route: ActivatedRoute, private productData: StoryblokService,  
               private zone: NgZone, private router: Router, private renderer: Renderer2,
               private keyListen: NgxKeyboardEventsService) { }
 
   @Input() input: string;
-
-  speaks = [
-    {name: 'Alex', lang: 'en-US'},
-    {name: 'Alice', lang: 'it-IT'},
-    {name: 'Alva', lang: 'sv-SE'}
-  ];
 
   products = [];
 
@@ -51,7 +35,6 @@ export class ProductsComponent implements OnInit {
         this.products = data.stories;
 
         this.products.forEach((product) => {
-          // var productId = product.id;
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
         });
 
@@ -68,25 +51,23 @@ export class ProductsComponent implements OnInit {
             msg.text  = intro;
             msg.lang = 'en-US';
             speechSynthesis.speak(msg);
-        }   
-        (()=>{  
-          let counter = 1;
-            if(counter<4){
-              counter ++
-              setTimeout(textSpeech, 23000);
-          }
-        })();
-        textSpeech();
+        } 
+        setTimeout(textSpeech, 500)
+        // textSpeech();  
+        
+        // (()=>{  
+        //   let counter = 1;
+        //     if(counter<4){
+        //       counter ++
+        //       setTimeout(textSpeech, 23000);
+        //   }
+        // })();
+        
 
       const sayText = () => {
         const textSpeech = () => {
           const msg = new SpeechSynthesisUtterance();
-          // msg.volume = 1;
-          // msg.rate = 1;
-          // msg.pitch = 1.5;
           msg.text  = `${this.textArr}`;
-          // const voice = this.speaks[0];
-          // msg.lang = voice.lang;
           msg.lang = 'en-US';
           speechSynthesis.speak(msg);
         }
@@ -128,7 +109,6 @@ export class ProductsComponent implements OnInit {
       this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
         console.log('key event', keyEvent);
         if(keyEvent.code == 83){
-          console.log('hi i m Ss');
           recognition.start();
         }else if(keyEvent.code == 80) {
           sayText();
@@ -138,48 +118,45 @@ export class ProductsComponent implements OnInit {
 
   
       // SPEECH TO TEXT    
-          const {webkitSpeechRecognition} : IWindow = <IWindow>window;
-          const recognition = new webkitSpeechRecognition();
-          var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
+      const {webkitSpeechRecognition} : IWindow = <IWindow>window;
+      const recognition = new webkitSpeechRecognition();
+      var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
+      
+      var grammar = '#JSGF V1.0;'
+      var speechRecognitionList = new SpeechGrammarList();
+      speechRecognitionList.addFromString(grammar, 1);
+      recognition.grammars = speechRecognitionList;
+      recognition.lang = 'en-US';
+      // recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.onresult = function(event) {
+          let last = event.results.length - 1;
+          let command = event.results[last][0].transcript;
           
-          var grammar = '#JSGF V1.0;'
-          var speechRecognitionList = new SpeechGrammarList();
-          speechRecognitionList.addFromString(grammar, 1);
-          recognition.grammars = speechRecognitionList;
-          recognition.lang = 'en-US';
-          // recognition.continuous = true;
-          recognition.interimResults = false;
-          recognition.onresult = function(event) {
-              let last = event.results.length - 1;
-              let command = event.results[last][0].transcript;
-              
-              console.log(command);     
-              
-              if(command.toLowerCase() === 'linen formal shirt'){          
-                // console.log('I am listening');
-                goLinen();
-              }else if(command.toLowerCase() === 'blue formal shirt'){  
-                goBlue();
-              }else if(command.toLowerCase() === 'black collar t-shirt'){  
-                goBlack();
-              }else if(command.toLowerCase() === 'black white t-shirt'){  
-                goBlackWhite();
-              }else if(command.toLowerCase() === 'cart'){  
-                goToCart();
-              }else if(command.toLowerCase() === 'home'){  
-                goHome();
-              }
-            
-          };
-          recognition.onspeechend = function() {
-              recognition.stop();
-          };
-          recognition.onerror = function(event) {
-            console.log(event.error);
-          }        
-          // document.querySelector('#speak').addEventListener('click', function(){
-          //     recognition.start();
-          // });
+          console.log(command);     
+          
+          if(command.toLowerCase() === 'linen formal shirt'){          
+            goLinen();
+          }else if(command.toLowerCase() === 'blue formal shirt'){  
+            goBlue();
+          }else if(command.toLowerCase() === 'black collar t-shirt'){  
+            goBlack();
+          }else if(command.toLowerCase() === 'black white t-shirt'){  
+            goBlackWhite();
+          }else if(command.toLowerCase() === 'cart'){  
+            goToCart();
+          }else if(command.toLowerCase() === 'home'){  
+            goHome();
+          }
+        
+      };
+      recognition.onspeechend = function() {
+          recognition.stop();
+      };
+      recognition.onerror = function(event) {
+        console.log(event.error);
+      }        
+
 
   }
 
