@@ -8,13 +8,13 @@ import { StoreService } from '../store.service';
 })
 export class CartComponent implements OnInit {
 
-  buyData: any = [];
+  cartData: any = [];
 
   constructor(private store: StoreService) { }
 
   ngOnInit() {
-    this.buyData = this.store.cartData;
-    console.log(this.buyData);
+    this.cartData = this.store.cartData;
+    console.log(this.cartData);
     
   }
 
