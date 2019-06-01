@@ -10,14 +10,14 @@
             <form (ngSubmit)="register(registerForm)" #registerForm="ngForm">
                 <div class="form-group">
                   <label for="email">Email address</label>
-                  <input type="email" [(ngModel)]="email" name="email" class="form-control" id="email" value="mridu@gmail.com" required>
+                  <input type="email" [(ngModel)]="email" name="email" class="form-control" id="email" value="" required>
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" value="mridu" required>
+                  <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" value="" required>
                 </div>
                 <button type="submit" class="btn btn-warning" [disabled]="!email || !password">Register</button>
-                <button type="submit" class="btn btn-success ml-3">Log In</button>
+                <input [routerLink]="['/login']" type="button" class="btn btn-success ml-3" value="Log In"/>
               </form>
             </div>
 

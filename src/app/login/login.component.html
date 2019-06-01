@@ -16,7 +16,8 @@
                     <label for="password">Password</label>
                     <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" placeholder="password" required>
                   </div>
-                  <button type="submit" class="btn btn-primary" [disabled]="!email || !password">Log In</button>
+                  <button type="submit" class="btn btn-success" [disabled]="!email || !password">Log In</button>
+                  <input [routerLink]="['/register']" type="button" class="btn btn-warning ml-3" value="Register"/>
                   <p class="text-center" *ngIf="invalidForm">Email or the Password does not match !!</p>
                 </form>
               </div>
