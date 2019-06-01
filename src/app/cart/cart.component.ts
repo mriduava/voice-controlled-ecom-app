@@ -16,7 +16,8 @@ export class CartComponent implements OnInit {
 
   cartData: any = [];
 
-  constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService, private zone: NgZone, private router: Router) { }
+  constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService, 
+               private zone: NgZone, private router: Router) { }
 
   ngOnInit() {
     this.cartData = this.store.cartData;
@@ -43,7 +44,7 @@ export class CartComponent implements OnInit {
     }
 
     const goCheckout = () => {
-      this.zone.run(() => this.router.navigateByUrl('/checkout'))
+      this.zone.run(() => this.router.navigateByUrl('/cart/checkout'))
       speechSynthesis.cancel();
     }
      

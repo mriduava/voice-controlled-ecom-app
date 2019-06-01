@@ -43,7 +43,7 @@ export class ShowComponent implements OnInit {
     // ADD TO CART
     const addToCart = () => {
       this.store.cartData = this.product;
-      localStorage.setItem('product', JSON.stringify(this.product))
+      localStorage.setItem('products', JSON.stringify(this.product))
     }
 
     // TEXT TO SPEECH
@@ -102,8 +102,7 @@ export class ShowComponent implements OnInit {
         
         console.log(command);
     
-        if(command.toLowerCase() === 'continue'){          
-          console.log('I am listening');
+        if(command.toLowerCase() === 'continue'){     
           goToPro();
         }else if(command.toLowerCase() === 'bye'){  
           addToCart();
