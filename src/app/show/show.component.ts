@@ -35,9 +35,9 @@ export class ShowComponent implements OnInit {
                          ${this.product.summary} ...
                          It's price ${this.product.price} SEK ... ...
                          To Buy the Product,
-                         Please press S, and then say Buy. ... ...
+                         Please press "Control", and then say "Buy". ... ...
                          To go to Product page,
-                         Please press S, and then say Continue. ... ...`);
+                         Please press "Control", and then say "Continue". ... ...`);
     });
 
     // ADD TO CART
@@ -76,7 +76,7 @@ export class ShowComponent implements OnInit {
 
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       console.log('key event', keyEvent);
-      if(keyEvent.code == 83){
+      if(keyEvent.code == 17){
         recognition.start();
       }else if(keyEvent.code == 80) {
         sayText();

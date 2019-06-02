@@ -61,7 +61,7 @@ export class CartComponent implements OnInit {
      
     // TO ACTIVE KEY CONTROL
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      if(keyEvent.code == 83){
+      if(keyEvent.code == 17){
         recognition.start();
       }else if(keyEvent.code == 80) {
         // sayText();

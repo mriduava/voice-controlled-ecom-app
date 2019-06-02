@@ -1,5 +1,7 @@
-<div class="container" >
-    
+<div class="container pt-3">
+  <div class="row justify-content-sm-center">
+    <div class="col-lg-10 col-md-6">
+    <h4 class="text-center text-warning">SHOPPING CART</h4>
 	<table id="cart" class="table table-hover table-condensed">
         <thead>
             <tr>
@@ -25,7 +27,7 @@
                 </td>
                 <td data-th="Price">{{cartData.price}} kr</td>
                 <td data-th="Quantity">
-                    <input name="quantity" min="1" type="number" class="quantity px-2" v-model="item.quantity">
+                    <input name="quantity" min="1" type="number" class="quantity px-2" [(ngModel)]="cartData.quantity" style="width: 60px;">
                 </td>
                 <!-- <td data-th="Subtotal" class="text-center">{{(item.price*item.quantity).toFixed(2)}} kr</td> -->
                 <td class="actions" data-th="">
@@ -33,18 +35,19 @@
                     <!-- <button class="btn btn-danger btn-sm px-2 mx-3" @click="removeItem()"><i class="fas fa-minus-square"></i></button>								 -->
                 </td>
             </tr>
-        </tbody>
-      
+        </tbody>      
   
         <tfoot>
             <tr>
-                <!-- <td><router-link to="/women" class="btn btn-outline-info btn-sm"><i class="fa fa-angle-left"></i> Continue Shopping</router-link></td>
+                <td></td>
                 <td colspan="2" class="hidden-xs"></td>
-                <td class="hidden-xs text-center">TOTAL <strong> {{total.toFixed(2)}} kr</strong></td>
-                <td><router-link to="/cart/checkout" class="btn btn-success btn-sm px-4">Checkout <i class="fas fa-angle-right"></i></router-link></td> -->
+                <td class="hidden-xs text-center">TOTAL <strong>  kr</strong></td>
+                <td></td>
             </tr>
         </tfoot>
  
     </table>
+   </div>    
+  </div>    
+</div>    
 
- </div>    

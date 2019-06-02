@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, NgZone, HostListener, Renderer2 } from '@angular/core';
+import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
-import {Router} from '@angular/router';
-import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
+import { Router } from '@angular/router';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -44,7 +44,7 @@ export class ProductsComponent implements OnInit {
       // TEXT TO SPEECH      
         const intro = `To listen available products, please press "P". ... ....
                        To select an item. ...
-                       Press "S", and then say the "Product Name". ...`
+                       Press "Control", and then say the "Product Name". ...`
         const textSpeech = () => {
             const msg = new SpeechSynthesisUtterance();
             msg.rate = 0.4;
@@ -54,16 +54,7 @@ export class ProductsComponent implements OnInit {
         } 
         setTimeout(textSpeech, 500)
         // textSpeech();  
-        
-        // (()=>{  
-        //   let counter = 1;
-        //     if(counter<4){
-        //       counter ++
-        //       setTimeout(textSpeech, 23000);
-        //   }
-        // })();
-        
-
+ 
       const sayText = () => {
         const textSpeech = () => {
           const msg = new SpeechSynthesisUtterance();
@@ -75,6 +66,7 @@ export class ProductsComponent implements OnInit {
       };
       // sayText();
 
+      // FUNCTIONS TO NAVIGATE PAGES
       const goHome = () => {
         this.zone.run(() => this.router.navigateByUrl('/'))
         speechSynthesis.cancel();
@@ -86,6 +78,7 @@ export class ProductsComponent implements OnInit {
       }
 
       const goLinen = () => {
+        // ?? Needs to create a function to catch the Params Id
         // const productId = this.route.snapshot.params.id;
         this.zone.run(() => this.router.navigate(['/products', 989868], { relativeTo: this.route }))
         speechSynthesis.cancel();
@@ -106,9 +99,10 @@ export class ProductsComponent implements OnInit {
         speechSynthesis.cancel();
       }
 
+      // KEYBOARD CONTROL
       this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
         console.log('key event', keyEvent);
-        if(keyEvent.code == 83){
+        if(keyEvent.code == 17){
           recognition.start();
         }else if(keyEvent.code == 80) {
           sayText();
@@ -134,7 +128,7 @@ export class ProductsComponent implements OnInit {
           let command = event.results[last][0].transcript;
           
           console.log(command);     
-          
+          //?? Needs to create a function to read the product title
           if(command.toLowerCase() === 'linen formal shirt'){          
             goLinen();
           }else if(command.toLowerCase() === 'blue formal shirt'){  
