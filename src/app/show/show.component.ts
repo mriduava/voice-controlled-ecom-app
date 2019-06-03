@@ -19,6 +19,8 @@ export class ShowComponent implements OnInit {
 
   product: any = [];
 
+  cartItem: any = [];
+
   textArr = [];
 
   constructor(private route: ActivatedRoute, private showItem: StoryblokService, private router: Router, 
@@ -30,6 +32,7 @@ export class ShowComponent implements OnInit {
     .then(data => {
       console.log(data.story);
       this.product = data.story.content;
+      this.cartItem = data.story;
 
       this.textArr.push(`${this.product.title} has been selected, 
                          ${this.product.summary} ...
@@ -42,8 +45,8 @@ export class ShowComponent implements OnInit {
 
     // ADD TO CART
     const addToCart = () => {
-      this.store.cartData = this.product;
-      localStorage.setItem('products', JSON.stringify(this.product))
+      this.store.cartData.push(this.cartItem);
+      localStorage.setItem('products', JSON.stringify(this.cartItem))
     }
 
     // TEXT TO SPEECH
@@ -75,7 +78,6 @@ export class ShowComponent implements OnInit {
     }
 
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      console.log('key event', keyEvent);
       if(keyEvent.code == 17){
         recognition.start();
       }else if(keyEvent.code == 80) {

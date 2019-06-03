@@ -12,30 +12,31 @@
                 <th style="width:15%">Remove</th>
             </tr>
         </thead>
-   
-        <tbody >
-      
+     
+     
+        <tbody *ngFor="let item of cartData">      
             <tr>
                 <td data-th="Product">
                     <div class="row">
-                        <div class="col-sm-2 hidden-xs"><img [src]="cartData.thumbnail" alt="..." class="img-responsive w-100"/></div>
+                        <div class="col-sm-2 hidden-xs"><img [src]="item.content.thumbnail" alt="..." class="img-responsive w-100"/></div>
                         <div class="col-sm-10">
-                            <h4 class="nomargin">{{cartData.title}}</h4>
-                            <p>{{cartData.summary}}</p>
+                            <h4 class="nomargin">{{item.content.title}}</h4>
+                            <p>{{item.content.summary}}</p>
                         </div>
                     </div>
                 </td>
-                <td data-th="Price">{{cartData.price}} kr</td>
+                <td data-th="Price">{{item.content.price}} kr</td>
                 <td data-th="Quantity">
                     <input name="quantity" min="1" type="number" class="quantity px-2" [(ngModel)]="cartData.quantity" style="width: 60px;">
                 </td>
-                <!-- <td data-th="Subtotal" class="text-center">{{(item.price*item.quantity).toFixed(2)}} kr</td> -->
+                <td data-th="Subtotal" class="text-center">{{item.content.price*item.content.quantity}} kr</td>
                 <td class="actions" data-th="">
                     <!-- <button class="btn btn-info btn-sm"><i class="fa fa-sync"></i></button> -->
                     <!-- <button class="btn btn-danger btn-sm px-2 mx-3" @click="removeItem()"><i class="fas fa-minus-square"></i></button>								 -->
                 </td>
             </tr>
-        </tbody>      
+        </tbody>
+         
   
         <tfoot>
             <tr>

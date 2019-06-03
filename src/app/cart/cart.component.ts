@@ -17,7 +17,7 @@ export interface IWindow extends Window {
 export class CartComponent implements OnInit {
   user: Observable<firebase.User>;
 
-  cartData: any = [];
+  cartData= [];
 
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService, 
                private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) { 

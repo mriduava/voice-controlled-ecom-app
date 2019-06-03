@@ -107,6 +107,8 @@ export class ProductsComponent implements OnInit {
         }else if(keyEvent.code == 80) {
           sayText();
           speechSynthesis.cancel();
+        }else if(keyEvent.code == 13){
+          setTimeout(textSpeech, 200)
         }
       });
 
