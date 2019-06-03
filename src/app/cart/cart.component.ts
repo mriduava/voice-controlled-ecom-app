@@ -21,6 +21,8 @@ export class CartComponent implements OnInit {
 
   textArr = [];
 
+  total: '';
+
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService, 
                private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) { 
                 this.user=this.fAuth.authState;
@@ -58,6 +60,25 @@ export class CartComponent implements OnInit {
         
       };
       setTimeout(textSpeech, 2000);
+
+      // TO CALCULATE TOTAL PRICE
+      // const netTotal = () => {
+      //   let total = 0;
+      //   for(let i=0; i<this.cartData.length; i++){
+      //       let item = this.cartData[i];
+      //       total += item.content.quantity*item.content.price
+      //   }
+      //   return this.total += total;
+      // }
+      // netTotal();
+
+      this.cartData.forEach((item)=>{
+        let total = 0;
+        total += item.content.quantity*item.content.price
+        this.total += total;
+      })
+
+  
     
     // FUNCTIONS TO NAVIGATE
     const goToPro = () => {
@@ -119,5 +140,6 @@ export class CartComponent implements OnInit {
     }  
     
   }
+  
 
 }

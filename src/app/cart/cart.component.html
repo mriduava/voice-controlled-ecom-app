@@ -30,7 +30,7 @@
                 </td>
                 <td data-th="Price">{{item.content.price}} kr</td>
                 <td data-th="Quantity">
-                    <input name="quantity" min="1" type="number" class="quantity px-2" [(ngModel)]="cartData.quantity" style="width: 60px;">
+                    <input name="quantity" min="1" type="number" class="quantity px-2" [(ngModel)]="item.content.quantity" style="width: 60px;">
                 </td>
                 <td data-th="Subtotal" class="text-center">{{item.content.price*item.content.quantity}} kr</td>
                 <td class="actions" data-th="">
@@ -45,7 +45,7 @@
             <tr>
                 <td></td>
                 <td colspan="2" class="hidden-xs"></td>
-                <td class="hidden-xs text-center">TOTAL <strong>  kr</strong></td>
+                <td class="hidden-xs text-center">TOTAL <strong>{{total}}  kr</strong></td>
                 <td></td>
             </tr>
         </tfoot> 
