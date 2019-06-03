@@ -19,6 +19,8 @@ export class CartComponent implements OnInit {
 
   cartData= [];
 
+  textArr = [];
+
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService, 
                private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) { 
                 this.user=this.fAuth.authState;
@@ -29,6 +31,11 @@ export class CartComponent implements OnInit {
     this.cartData = this.store.cartData;
     console.log(this.cartData);
 
+    this.cartData.forEach((item)=>{
+      this.textArr.push(`Products in you cartlist. ...
+                         ${item.content.title}, it's price ${item.content.price} SEK per quantity. ...`)
+    })
+
     // TEXT TO SPEECH  
       const textSpeech = () => {
         const speaks = [{name: 'Alex', lang: 'en-US'}];
@@ -36,10 +43,19 @@ export class CartComponent implements OnInit {
         msg.volume = 1;
         msg.rate = 1;
         msg.pitch = 1.5;
-        msg.text  = `${this.cartData}`;
+        msg.text  = `${this.textArr}`;
         const voice = speaks[0];
         msg.lang = voice.lang;
-        speechSynthesis.speak(msg);
+        if(this.cartData.length>0){
+          speechSynthesis.speak(msg);
+        }else{
+          const sorrymsg = new SpeechSynthesisUtterance();
+          sorrymsg.text = `Sorry!! ... Your shopping cart is empty. ...
+                           To buy a product. ... 
+                           Please press "Control" and then say "Continue". ...`
+          speechSynthesis.speak(sorrymsg);
+        }
+        
       };
       setTimeout(textSpeech, 2000);
     
