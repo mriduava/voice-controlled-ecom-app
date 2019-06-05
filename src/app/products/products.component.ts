@@ -33,10 +33,14 @@ export class ProductsComponent implements OnInit {
       this.productData.getStory('/', {version: 'draft', starts_with: 'men/'})
       .then(data => {
         this.products = data.stories;
+      
 
         this.products.forEach((product) => {
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
+          this.selectArr.push(`${product.content.title}`)
         });
+
+      
 
       });
 
@@ -47,7 +51,7 @@ export class ProductsComponent implements OnInit {
                        Press "Control", and then say the "Product Name". ...`
         const textSpeech = () => {
             const msg = new SpeechSynthesisUtterance();
-            msg.rate = 0.4;
+            msg.rate = 0.6;
             msg.text  = intro;
             msg.lang = 'en-US';
             speechSynthesis.speak(msg);
@@ -129,8 +133,14 @@ export class ProductsComponent implements OnInit {
           let last = event.results.length - 1;
           let command = event.results[last][0].transcript;
           
+          // return command.toLowerCase();
           console.log(command);     
           //?? Needs to create a function to read the product title
+
+          // if(command.toLowerCase() === `${title.title}`){          
+          //   goLinen();
+          // }
+      
           if(command.toLowerCase() === 'linen formal shirt'){          
             goLinen();
           }else if(command.toLowerCase() === 'blue formal shirt'){  

@@ -22,6 +22,55 @@ export class LoginComponent implements OnInit {
   constructor(public router: Router, private fAuth: AngularFireAuth, private zone: NgZone) { }
 
   ngOnInit() {
+    window.onload = function() {
+      var input = document.getElementById("email").focus();
+    }
+
+    const logText = () => {
+      const msg = new SpeechSynthesisUtterance();    
+      msg.text = `You are not Logged in. ...
+                  Please Login with your email and password. ...
+                  If you are not not registered. ..., 
+                  Please Register first. ...
+                  To get the Register form. ...
+                  Plese press "Control" and say "Register". ...`
+      speechSynthesis.speak(msg)
+    }
+    setTimeout(logText, 1000);
+
+    const goRegister = () => {
+      this.zone.run(() => this.router.navigateByUrl('/register'))
+      speechSynthesis.cancel();
+    }
+
+    // SPEECH TO TEXT    
+    const {webkitSpeechRecognition} : IWindow = <IWindow>window;
+    const recognition = new webkitSpeechRecognition();
+    var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
+    
+    var grammar = '#JSGF V1.0;'
+    var speechRecognitionList = new SpeechGrammarList();
+    speechRecognitionList.addFromString(grammar, 1);
+    recognition.grammars = speechRecognitionList;
+    recognition.lang = 'en-US';
+    // recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.onresult = function(event) {
+        let last = event.results.length - 1;
+        let command = event.results[last][0].transcript;        
+        console.log(command);    
+        if(command.toLowerCase() === 'register'){          
+          goRegister();
+        }else if(command.toLowerCase() === 'check out'){ 
+      
+        }      
+    };
+    recognition.onspeechend = function() {
+        recognition.stop();
+    };
+    recognition.onerror = function(event) {
+      console.log(event.error);
+    }  
   }
   
   login() {
@@ -31,53 +80,7 @@ export class LoginComponent implements OnInit {
     })
     .catch(err => {
       this.invalidForm = true;
-    });
-    
-    const logText = () => {
-      const msg = new SpeechSynthesisUtterance();    
-      msg.text = `You are not Logged in. ...
-                      To checkout. ...
-                      Please Login with your email and password. ...
-                      If you are not not register, 
-                      Please Register first. ...
-                      To get Register form, 
-                      Plese press "Control" and say "Register". ...`
-      speechSynthesis.speak(msg)
-    }
-    setTimeout(logText, 1000);
-
-    const goRegister = () => {
-      this.zone.run(() => this.router.navigateByUrl('/register'))
-      speechSynthesis.cancel();
-    }
-        // SPEECH TO TEXT    
-        const {webkitSpeechRecognition} : IWindow = <IWindow>window;
-        const recognition = new webkitSpeechRecognition();
-        var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
-        
-        var grammar = '#JSGF V1.0;'
-        var speechRecognitionList = new SpeechGrammarList();
-        speechRecognitionList.addFromString(grammar, 1);
-        recognition.grammars = speechRecognitionList;
-        recognition.lang = 'en-US';
-        // recognition.continuous = true;
-        recognition.interimResults = false;
-        recognition.onresult = function(event) {
-            let last = event.results.length - 1;
-            let command = event.results[last][0].transcript;        
-            console.log(command);    
-            if(command.toLowerCase() === 'register'){          
-              goRegister();
-            }else if(command.toLowerCase() === 'check out'){ 
-          
-            }      
-        };
-        recognition.onspeechend = function() {
-            recognition.stop();
-        };
-        recognition.onerror = function(event) {
-          console.log(event.error);
-        }  
+    });  
   }
 
 }
