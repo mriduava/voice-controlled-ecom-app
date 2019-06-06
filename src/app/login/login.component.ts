@@ -1,10 +1,9 @@
 import { Component, OnInit, NgZone,Input } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
-import { Observable } from 'rxjs';
+import * as $ from "jquery"
+
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -73,8 +72,7 @@ export class LoginComponent implements OnInit {
         document.getElementById("pass-input").style.display = "block";
         document.getElementById("password").focus();
         passText();
-              
-      }else if(keyEvent.code == 17) {
+      }else if(keyEvent.code === 17) {
         speechSynthesis.cancel();
         recognition.start();
       }

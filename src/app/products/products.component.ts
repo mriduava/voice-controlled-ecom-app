@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, NgZone, HostListener, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, NgZone, HostListener, Renderer2, PipeTransform } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
+// import { PipeTransform } from '@angular/core'
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -28,6 +29,8 @@ export class ProductsComponent implements OnInit {
 
   selectArr = []; 
 
+  showArr = [];
+
   ngOnInit() {
       // CMS DATA CONNECTION
       this.productData.getStory('/', {version: 'draft', starts_with: 'men/'})
@@ -36,9 +39,20 @@ export class ProductsComponent implements OnInit {
 
         this.products.forEach((product) => {
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
-          // this.selectArr.push(`${product.content.title}`)
+          this.selectArr.push(`${product.content.title}
+                               ${product.content.id}`)
         });
       });
+
+      // const productId = `${this.showArr.find(obj=>obj.id == obj.id)}`;
+      // this.productData.getStory(productId, {version: 'draft'})
+      // .then(data => {
+      //   console.log(data.story);
+      //   this.selectArr = data.story;
+  
+      // });
+
+     
 
       // TEXT TO SPEECH      
         const intro = `To listen available products, please press "P". ... ....
@@ -77,8 +91,7 @@ export class ProductsComponent implements OnInit {
       }
 
       const goLinen = () => {
-        // ?? Needs to create a function to catch the Params Id
-        // const productId = this.route.snapshot.params.id;
+        // ?? Need to create a function to get the Product ID or Params
         this.zone.run(() => this.router.navigate(['/products', 989868], { relativeTo: this.route }))
         speechSynthesis.cancel();
       }
@@ -100,7 +113,6 @@ export class ProductsComponent implements OnInit {
 
       // KEYBOARD CONTROL
       this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-        console.log('key event', keyEvent);
         if(keyEvent.code == 17){
           recognition.start();
         }else if(keyEvent.code == 80) {
@@ -128,7 +140,7 @@ export class ProductsComponent implements OnInit {
           let last = event.results.length - 1;
           let command = event.results[last][0].transcript;
           console.log(command);     
-          //?? Needs to create a function to read the product title
+          //?? Need to create a function to read the product title
       
           if(command.toLowerCase() === 'linen formal shirt'){          
             goLinen();

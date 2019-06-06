@@ -29,13 +29,15 @@ export class ShowComponent implements OnInit {
               private zone: NgZone, private keyListen: NgxKeyboardEventsService, private store: StoreService) { }
 
   ngOnInit() {
+    // TO GET DATA BY ID
     const productId = this.route.snapshot.params.id;
     this.showItem.getStory(productId, {version: 'draft'})
     .then(data => {
       console.log(data.story);
       this.product = data.story.content;
       this.cartItem = data.story;
-
+      
+      // TO NERRATE PRODUCT DETAILS
       this.textArr.push(`${this.product.title} has been selected, 
                          ${this.product.summary} ...
                          It's price ${this.product.price} SEK ... ...
@@ -67,7 +69,7 @@ export class ShowComponent implements OnInit {
           msg.lang = voice.lang;
           speechSynthesis.speak(msg);
         };
-        setTimeout(textSpeech, 2000);
+        setTimeout(textSpeech, 1000);
       };
     sayText();
 
@@ -77,7 +79,7 @@ export class ShowComponent implements OnInit {
       speechSynthesis.speak(msg);
     }
 
-    
+    // FUNCTIONS TO NAVIGATE TO DIFFERENT PAGES
     const goToPro = () => {
       this.zone.run(() => this.router.navigateByUrl('/products'))
       speechSynthesis.cancel();
@@ -88,6 +90,7 @@ export class ShowComponent implements OnInit {
       speechSynthesis.cancel();
     }
 
+    // KEYBOARD EVENT
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code == 17){
         recognition.start();
@@ -105,7 +108,7 @@ export class ShowComponent implements OnInit {
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
     recognition.lang = 'en-US';
-    // recognition.continuous = true;
+    recognition.continuous = false;
     recognition.interimResults = false;
     recognition.onresult = function(event) {
         let last = event.results.length - 1;
@@ -118,8 +121,7 @@ export class ShowComponent implements OnInit {
         }else if(command.toLowerCase() === 'bye'){ 
           speechSynthesis.cancel(); 
           addToCart();
-          goToCart();
-          // buyText();        
+          goToCart();      
         }
       
     };
