@@ -61,7 +61,7 @@ export class CartComponent implements OnInit {
         }
 
       };
-      setTimeout(textSpeech, 2000);
+      setTimeout(textSpeech, 1000);
 
       // TO CALCULATE TOTAL PRICE
       // const netTotal = () => {
@@ -102,9 +102,6 @@ export class CartComponent implements OnInit {
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code == 17){
         recognition.start();
-      }else if(keyEvent.code == 80) {
-        // sayText();
-        speechSynthesis.cancel();
       }
     });
 

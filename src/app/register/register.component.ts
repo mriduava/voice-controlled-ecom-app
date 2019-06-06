@@ -15,6 +15,8 @@ export class RegisterComponent implements OnInit {
   constructor(private fAuth: AngularFireAuth, public router: Router) { }
 
   ngOnInit() {
+    document.getElementById("email").focus();
+    document.getElementById("pass-input").style.display = "none";
   }
 
   register() {

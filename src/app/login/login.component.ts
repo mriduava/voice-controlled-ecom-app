@@ -23,45 +23,60 @@ export class LoginComponent implements OnInit {
 
   constructor(public router: Router, private fAuth: AngularFireAuth, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
 
-  ngOnInit() {
-    window.onload = function() {
-       document.getElementById("email").focus();
-       document.getElementById("pass-input").style.display = "none";
-    }
-
+  ngOnInit() { 
+    // TO FOCUS EMAIL INPUT & TO HIDE PASS INPUT
+    document.getElementById("email").focus();
+    document.getElementById("pass-input").style.display = "none";  
+    
+    // LOG IN PAGE VOICE TEXT
     const logText = () => {
-<<<<<<< HEAD
       const msg = new SpeechSynthesisUtterance();    
-      msg.text = `You are in login page. ...
-                  Please write your email address and press "Enter" . ...
-                  If you are not not registered. ..., 
-=======
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = `You are not Logged in. ...
-                  Please Login with your email and password. ...
-                  If you are not not registered. ...,
->>>>>>> b3861f7ab8ac0e372923fc445cfdc7f393f6559e
+      msg.text =  `You are in login page. ...
+                  If you are not registered yet. ..., 
                   Please Register first. ...
                   To get the Register form. ...
-                  Plese press "Control" and say "Register". ...`
+                  Plese press "Control" and say "Sign Up". ...`
       speechSynthesis.speak(msg)
+      const emailText = () => {
+        const msg = new SpeechSynthesisUtterance();    
+        msg.text = `To Login. ...
+                    Please write your email address and press "Enter" . ...`
+        speechSynthesis.speak(msg)
+      }
+      setTimeout(emailText, 3000);
+  
     }
     setTimeout(logText, 1000);
 
+    
+    // VOICE TEXT TO FILL PASSWORD
+    const passText = () => {
+      const msg = new SpeechSynthesisUtterance();    
+      msg.text = `Please write your password and press "Enter" . ...`
+      speechSynthesis.speak(msg)
+    }
+ 
+    // TO NAVIGATE TO REGiSTER PAGE
     const goRegister = () => {
       this.zone.run(() => this.router.navigateByUrl('/register'))
       speechSynthesis.cancel();
     }
 
+    const goLogin = () => {
+      this.zone.run(() => this.router.navigateByUrl('/login'))
+      speechSynthesis.cancel();
+    }
+
     // TO ACTIVE KEY CONTROL
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      if(keyEvent.code == 13){
-        // recognition.start();
+      if(keyEvent.code == 13){       
         document.getElementById("pass-input").style.display = "block";
         document.getElementById("password").focus();
-      }else if(keyEvent.code == 80) {
-        // sayText();
+        passText();
+              
+      }else if(keyEvent.code == 17) {
         speechSynthesis.cancel();
+        recognition.start();
       }
     });
 
@@ -75,26 +90,27 @@ export class LoginComponent implements OnInit {
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
     recognition.lang = 'en-US';
-    // recognition.continuous = true;
+    recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.onresult = function(event) {
+    recognition.onresult = (event: any) => {
         let last = event.results.length - 1;
         let command = event.results[last][0].transcript;
         console.log(command);
-        if(command.toLowerCase() === 'register'){
+        if(command.toLowerCase() === 'sign up'){
           goRegister();
-        }else if(command.toLowerCase() === 'check out'){
-
+        }else if(command.toLowerCase() === 'sign in'){
+          goLogin()
         }
     };
-    recognition.onspeechend = function() {
+    recognition.onspeechend = () => {
         recognition.stop();
     };
-    recognition.onerror = function(event) {
+    recognition.onerror = (event: any) => {
       console.log(event.error);
     }
   }
-
+  
+  // FUNCTION TO LOG IN
   login() {
     this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
     .then(value => {

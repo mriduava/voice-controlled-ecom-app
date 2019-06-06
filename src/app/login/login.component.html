@@ -3,7 +3,7 @@
       <div class="col-sm-12 col-md-6">
         <div class="card border-info">
           <div class="card-header"><h3>LOG IN</h3></div>
-          <div class="card-body">
+          <div class="card-body" style="background: url(../assets/nova.gif); background-size: cover; width: 100%">
             <div class="row">
 
               <div class="col-md-7">
@@ -16,14 +16,14 @@
                     <label for="password">Password</label>
                     <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" placeholder="password" required>
                   </div>
-                  <button type="submit" class="btn btn-success" [disabled]="!email || !password">Log In</button>
-                  <input [routerLink]="['/register']" type="button" class="btn btn-warning ml-3" value="Register"/>
+                  <button type="submit" class="btn btn-success d-none">Log In</button>
+                  <!-- <input [routerLink]="['/register']" type="button" class="btn btn-warning ml-3" value="Register"/> -->
                   <p class="text-center" *ngIf="invalidForm">Email or the Password does not match !!</p>
                 </form>
               </div>
 
               <div class="col-md-5 text-center d-none d-sm-block">
-                <img src="https://placeimg.com/160/160/nature">
+                <!-- <img src="https://placeimg.com/160/160/nature"> -->
               </div>
             </div>
            </div>

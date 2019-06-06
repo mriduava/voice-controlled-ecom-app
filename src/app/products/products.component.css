@@ -24,3 +24,20 @@ ul .p-name{
     font-size: 1.5rem;
     color: rgb(255, 41, 41);
 }
+
+.pro-header{
+   background: none;
+}
+.pro-text{   
+    color: #c9a32b;
+}
+
+.pro-img{
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.pro-body{
+    background: #fff;
+}

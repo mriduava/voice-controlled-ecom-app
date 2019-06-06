@@ -23,6 +23,8 @@ export class ShowComponent implements OnInit {
 
   textArr = [];
 
+  buyArr = [];
+
   constructor(private route: ActivatedRoute, private showItem: StoryblokService, private router: Router, 
               private zone: NgZone, private keyListen: NgxKeyboardEventsService, private store: StoreService) { }
 
@@ -41,6 +43,9 @@ export class ShowComponent implements OnInit {
                          Please press "Control", and then say "Buy". ... ...
                          To go to Product page,
                          Please press "Control", and then say "Continue". ... ...`);
+      this.buyArr.push(`You have just bought ${this.product.title}. ...
+                        To buy more. ...
+                        Please press "Control", and then say "Continue". ... ...`)
     });
 
     // ADD TO CART
@@ -66,6 +71,12 @@ export class ShowComponent implements OnInit {
       };
     sayText();
 
+    const buyText = () => {
+      const msg = new SpeechSynthesisUtterance();
+      msg.text  = `${this.buyArr}`;
+      speechSynthesis.speak(msg);
+    }
+
     
     const goToPro = () => {
       this.zone.run(() => this.router.navigateByUrl('/products'))
@@ -80,8 +91,6 @@ export class ShowComponent implements OnInit {
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code == 17){
         recognition.start();
-      }else if(keyEvent.code == 80) {
-        sayText();
         speechSynthesis.cancel();
       }
     });
@@ -106,8 +115,11 @@ export class ShowComponent implements OnInit {
     
         if(command.toLowerCase() === 'continue'){     
           goToPro();
-        }else if(command.toLowerCase() === 'bye'){  
+        }else if(command.toLowerCase() === 'add to cart'){  
           addToCart();
+          buyText();        
+        }else if(command.toLowerCase() === 'cart'){
+          speechSynthesis.cancel();
           goToCart();
         }
       

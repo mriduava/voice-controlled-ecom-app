@@ -3,7 +3,7 @@
       <div class="col-sm-12 col-md-6">
         <div class="card border-info">
           <div class="card-header"><h3>REGISTER</h3></div>
-          <div class="card-body">
+          <div class="card-body" style="background: url(../assets/nova.gif); background-size: cover; width: 100%">
             <div class="row">   
      
             <div class="col-md-7">
@@ -13,18 +13,18 @@
                   <input type="email" [(ngModel)]="email" name="email" class="form-control" id="email" placeholder="email" required>
               
                 </div>
-                <div class="form-group">
+                <div id="pass-input" class="form-group">
                   <label for="password">Password</label>
                   <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" placeholder="password" required>
                 </div>
-                <button type="submit" class="btn btn-warning" [disabled]="!email || !password || password.length < 6" >Register</button>
-                <input [routerLink]="['/register']" type="button" class="btn btn-success ml-3" value="Log In"/>
+                <!-- <button type="submit" class="btn btn-warning" [disabled]="!email || !password || password.length < 6" >Register</button>
+                <input [routerLink]="['/login']" type="button" class="btn btn-success ml-3" value="Log In"/> -->
                 <p class="center" *ngIf="invalidForm">Passoword shold be at least 6 characters</p>
               </form>
               </div>
 
               <div class="col-md-5 text-center">
-                <img src="https://placeimg.com/160/160/nature">
+                <!-- <img src="https://placeimg.com/160/160/nature"> -->                
               </div>
 
             </div>

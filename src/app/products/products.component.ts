@@ -32,18 +32,14 @@ export class ProductsComponent implements OnInit {
       // CMS DATA CONNECTION
       this.productData.getStory('/', {version: 'draft', starts_with: 'men/'})
       .then(data => {
-        this.products = data.stories;
-      
+        this.products = data.stories;    
 
         this.products.forEach((product) => {
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
           this.selectArr.push(`${product.content.title}`)
-        });
-
-      
+        });    
 
       });
-
 
       // TEXT TO SPEECH      
         const intro = `To listen available products, please press "P". ... ....
