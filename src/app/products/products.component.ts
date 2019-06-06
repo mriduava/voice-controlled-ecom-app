@@ -3,6 +3,7 @@ import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events'
 import { ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -21,14 +22,13 @@ export class ProductsComponent implements OnInit {
 
   @Input() input: string;
 
-  products = [];
+  products: any = [];
 
   textArr = [];
 
   selectArr = []; 
 
   ngOnInit() {
-
       // CMS DATA CONNECTION
       this.productData.getStory('/', {version: 'draft', starts_with: 'men/'})
       .then(data => {
@@ -36,9 +36,8 @@ export class ProductsComponent implements OnInit {
 
         this.products.forEach((product) => {
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
-          this.selectArr.push(`${product.content.title}`)
-        });    
-
+          // this.selectArr.push(`${product.content.title}`)
+        });
       });
 
       // TEXT TO SPEECH      
@@ -123,19 +122,13 @@ export class ProductsComponent implements OnInit {
       speechRecognitionList.addFromString(grammar, 1);
       recognition.grammars = speechRecognitionList;
       recognition.lang = 'en-US';
-      // recognition.continuous = true;
+      recognition.continuous = false;
       recognition.interimResults = false;
       recognition.onresult = function(event) {
           let last = event.results.length - 1;
           let command = event.results[last][0].transcript;
-          
-          // return command.toLowerCase();
           console.log(command);     
           //?? Needs to create a function to read the product title
-
-          // if(command.toLowerCase() === `${title.title}`){          
-          //   goLinen();
-          // }
       
           if(command.toLowerCase() === 'linen formal shirt'){          
             goLinen();

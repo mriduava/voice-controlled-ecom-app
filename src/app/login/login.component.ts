@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
     }
   }
   
-  // FUNCTION TO LOG IN
+  // FUNCTION TO LOGIN
   login() {
     this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
     .then(value => {

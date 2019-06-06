@@ -115,12 +115,11 @@ export class ShowComponent implements OnInit {
     
         if(command.toLowerCase() === 'continue'){     
           goToPro();
-        }else if(command.toLowerCase() === 'add to cart'){  
+        }else if(command.toLowerCase() === 'bye'){ 
+          speechSynthesis.cancel(); 
           addToCart();
-          buyText();        
-        }else if(command.toLowerCase() === 'cart'){
-          speechSynthesis.cancel();
           goToCart();
+          // buyText();        
         }
       
     };
