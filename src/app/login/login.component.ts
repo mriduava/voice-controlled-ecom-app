@@ -1,4 +1,5 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone,Input } from '@angular/core';
+import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -15,22 +16,31 @@ export interface IWindow extends Window {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @Input()
   email: string;
   password: string;
   invalidForm: boolean;
 
-  constructor(public router: Router, private fAuth: AngularFireAuth, private zone: NgZone) { }
+  constructor(public router: Router, private fAuth: AngularFireAuth, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
 
   ngOnInit() {
     window.onload = function() {
-      var input = document.getElementById("email").focus();
+       document.getElementById("email").focus();
+       document.getElementById("pass-input").style.display = "none";
     }
 
     const logText = () => {
+<<<<<<< HEAD
       const msg = new SpeechSynthesisUtterance();    
       msg.text = `You are in login page. ...
                   Please write your email address and press "Enter" . ...
                   If you are not not registered. ..., 
+=======
+      const msg = new SpeechSynthesisUtterance();
+      msg.text = `You are not Logged in. ...
+                  Please Login with your email and password. ...
+                  If you are not not registered. ...,
+>>>>>>> b3861f7ab8ac0e372923fc445cfdc7f393f6559e
                   Please Register first. ...
                   To get the Register form. ...
                   Plese press "Control" and say "Register". ...`
@@ -43,11 +53,23 @@ export class LoginComponent implements OnInit {
       speechSynthesis.cancel();
     }
 
-    // SPEECH TO TEXT    
+    // TO ACTIVE KEY CONTROL
+    this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
+      if(keyEvent.code == 13){
+        // recognition.start();
+        document.getElementById("pass-input").style.display = "block";
+        document.getElementById("password").focus();
+      }else if(keyEvent.code == 80) {
+        // sayText();
+        speechSynthesis.cancel();
+      }
+    });
+
+    // SPEECH TO TEXT
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;
     const recognition = new webkitSpeechRecognition();
     var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
-    
+
     var grammar = '#JSGF V1.0;'
     var speechRecognitionList = new SpeechGrammarList();
     speechRecognitionList.addFromString(grammar, 1);
@@ -57,22 +79,22 @@ export class LoginComponent implements OnInit {
     recognition.interimResults = false;
     recognition.onresult = function(event) {
         let last = event.results.length - 1;
-        let command = event.results[last][0].transcript;        
-        console.log(command);    
-        if(command.toLowerCase() === 'register'){          
+        let command = event.results[last][0].transcript;
+        console.log(command);
+        if(command.toLowerCase() === 'register'){
           goRegister();
-        }else if(command.toLowerCase() === 'check out'){ 
-      
-        }      
+        }else if(command.toLowerCase() === 'check out'){
+
+        }
     };
     recognition.onspeechend = function() {
         recognition.stop();
     };
     recognition.onerror = function(event) {
       console.log(event.error);
-    }  
+    }
   }
-  
+
   login() {
     this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
     .then(value => {
@@ -80,7 +102,7 @@ export class LoginComponent implements OnInit {
     })
     .catch(err => {
       this.invalidForm = true;
-    });  
+    });
   }
 
 }

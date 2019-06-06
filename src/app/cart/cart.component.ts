@@ -23,9 +23,11 @@ export class CartComponent implements OnInit {
 
   total: '';
 
-  constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService, 
-               private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) { 
+  constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService,
+               private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) {
                 this.user=this.fAuth.authState;
+                console.log(this.user);
+
                }
 
 
@@ -38,7 +40,7 @@ export class CartComponent implements OnInit {
                          ${item.content.title}, it's price ${item.content.price} SEK per quantity. ...`)
     })
 
-    // TEXT TO SPEECH  
+    // TEXT TO SPEECH
       const textSpeech = () => {
         const speaks = [{name: 'Alex', lang: 'en-US'}];
         const msg = new SpeechSynthesisUtterance();
@@ -53,11 +55,11 @@ export class CartComponent implements OnInit {
         }else{
           const sorrymsg = new SpeechSynthesisUtterance();
           sorrymsg.text = `Sorry!! ... Your shopping cart is empty. ...
-                           To buy a product. ... 
+                           To buy a product. ...
                            Please press "Control" and then say "Continue". ...`
           speechSynthesis.speak(sorrymsg);
         }
-        
+
       };
       setTimeout(textSpeech, 2000);
 
@@ -78,8 +80,8 @@ export class CartComponent implements OnInit {
         this.total += total;
       })
 
-  
-    
+
+
     // FUNCTIONS TO NAVIGATE
     const goToPro = () => {
       this.zone.run(() => this.router.navigateByUrl('/products'))
@@ -95,7 +97,7 @@ export class CartComponent implements OnInit {
       this.zone.run(() => this.router.navigateByUrl('/login'))
       speechSynthesis.cancel();
     }
-     
+
     // TO ACTIVE KEY CONTROL
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code == 17){
@@ -106,11 +108,11 @@ export class CartComponent implements OnInit {
       }
     });
 
-    // SPEECH TO TEXT    
+    // SPEECH TO TEXT
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;
     const recognition = new webkitSpeechRecognition();
     var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
-    
+
     var grammar = '#JSGF V1.0;'
     var speechRecognitionList = new SpeechGrammarList();
     speechRecognitionList.addFromString(grammar, 1);
@@ -120,26 +122,26 @@ export class CartComponent implements OnInit {
     recognition.interimResults = false;
     recognition.onresult = function(event) {
         let last = event.results.length - 1;
-        let command = event.results[last][0].transcript;        
-        console.log(command);    
-        if(command.toLowerCase() === 'continue'){          
+        let command = event.results[last][0].transcript;
+        console.log(command);
+        if(command.toLowerCase() === 'continue'){
           goToPro();
-        }else if(command.toLowerCase() === 'check out'){ 
-            if(this.user){          
+        }else if(command.toLowerCase() === 'check out'){
+            if(this.user){
               goCheckout();
             }else{
               goLogin();
-            }          
-        }      
+            }
+        }
     };
     recognition.onspeechend = function() {
         recognition.stop();
     };
     recognition.onerror = function(event) {
       console.log(event.error);
-    }  
-    
+    }
+
   }
-  
+
 
 }
