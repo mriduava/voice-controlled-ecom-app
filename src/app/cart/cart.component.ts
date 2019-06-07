@@ -17,23 +17,18 @@ export interface IWindow extends Window {
 export class CartComponent implements OnInit {
   user: Observable<firebase.User>;
 
-  cartData= [];
+  cartData = [];
 
   textArr = [];
-
-  total: '';
 
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService,
                private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) {
                 this.user=this.fAuth.authState;
-                console.log(this.user);
-
                }
 
-
   ngOnInit() {
+    // GET DATA FROM STORE SERVICE
     this.cartData = this.store.cartData;
-    console.log(this.cartData);
 
     this.cartData.forEach((item)=>{
       this.textArr.push(`Products in you cartlist. ...
@@ -62,25 +57,6 @@ export class CartComponent implements OnInit {
 
       };
       setTimeout(textSpeech, 1000);
-
-      // TO CALCULATE TOTAL PRICE
-      // const netTotal = () => {
-      //   let total = 0;
-      //   for(let i=0; i<this.cartData.length; i++){
-      //       let item = this.cartData[i];
-      //       total += item.content.quantity*item.content.price
-      //   }
-      //   return this.total += total;
-      // }
-      // netTotal();
-
-      this.cartData.forEach((item)=>{
-        let total = 0;
-        total += item.content.quantity*item.content.price
-        this.total += total;
-      })
-
-
 
     // FUNCTIONS TO NAVIGATE
     const goToPro = () => {
@@ -115,7 +91,7 @@ export class CartComponent implements OnInit {
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
     recognition.lang = 'en-US';
-    // recognition.continuous = true;
+    recognition.continuous = false;
     recognition.interimResults = false;
     recognition.onresult = function(event) {
         let last = event.results.length - 1;
@@ -131,10 +107,10 @@ export class CartComponent implements OnInit {
             }
         }
     };
-    recognition.onspeechend = function() {
+    recognition.onspeechend = () => {
         recognition.stop();
     };
-    recognition.onerror = function(event) {
+    recognition.onerror = (event) => {
       console.log(event.error);
     }
 

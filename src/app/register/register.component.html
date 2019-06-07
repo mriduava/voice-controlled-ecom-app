@@ -17,14 +17,19 @@
                   <label for="password">Password</label>
                   <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" placeholder="password" required>
                 </div>
-                <!-- <button type="submit" class="btn btn-warning" [disabled]="!email || !password || password.length < 6" >Register</button>
-                <input [routerLink]="['/login']" type="button" class="btn btn-success ml-3" value="Log In"/> -->
-                <p class="center" *ngIf="invalidForm">Passoword shold be at least 6 characters</p>
+                <button type="submit" class="btn btn-success d-none">Rgister</button>
+              
+                <p class="center" *ngIf="invalidForm">Passoword should be at least 6 characters</p>
               </form>
               </div>
 
-              <div class="col-md-5 text-center">
-                <!-- <img src="https://placeimg.com/160/160/nature"> -->                
+              <div class="col-md-5 d-none d-sm-block text-secondary">
+                <p>To Register. ...<br>
+                   (1) - Please write your email and press "Enter"<br>
+                   (2) - Please write your password and press "Enter"<br><br>
+                   To get Login from. ...<br>
+                   Press "Ctrl" and say "Sign in"
+                </p>            
               </div>
 
             </div>

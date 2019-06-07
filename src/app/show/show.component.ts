@@ -21,9 +21,7 @@ export class ShowComponent implements OnInit {
 
   cartItem: any = [];
 
-  textArr = [];
-
-  buyArr = [];
+  textArr: any = [];
 
   constructor(private route: ActivatedRoute, private showItem: StoryblokService, private router: Router, 
               private zone: NgZone, private keyListen: NgxKeyboardEventsService, private store: StoreService) { }
@@ -33,7 +31,6 @@ export class ShowComponent implements OnInit {
     const productId = this.route.snapshot.params.id;
     this.showItem.getStory(productId, {version: 'draft'})
     .then(data => {
-      console.log(data.story);
       this.product = data.story.content;
       this.cartItem = data.story;
       
@@ -45,9 +42,6 @@ export class ShowComponent implements OnInit {
                          Please press "Control", and then say "Buy". ... ...
                          To go to Product page,
                          Please press "Control", and then say "Continue". ... ...`);
-      this.buyArr.push(`You have just bought ${this.product.title}. ...
-                        To buy more. ...
-                        Please press "Control", and then say "Continue". ... ...`)
     });
 
     // ADD TO CART
@@ -73,12 +67,6 @@ export class ShowComponent implements OnInit {
       };
     sayText();
 
-    const buyText = () => {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text  = `${this.buyArr}`;
-      speechSynthesis.speak(msg);
-    }
-
     // FUNCTIONS TO NAVIGATE TO DIFFERENT PAGES
     const goToPro = () => {
       this.zone.run(() => this.router.navigateByUrl('/products'))
@@ -94,6 +82,8 @@ export class ShowComponent implements OnInit {
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code == 17){
         recognition.start();
+        speechSynthesis.cancel();
+      }else if(keyEvent.code === 80){
         speechSynthesis.cancel();
       }
     });
@@ -113,8 +103,6 @@ export class ShowComponent implements OnInit {
     recognition.onresult = function(event) {
         let last = event.results.length - 1;
         let command = event.results[last][0].transcript;
-        
-        console.log(command);
     
         if(command.toLowerCase() === 'continue'){     
           goToPro();

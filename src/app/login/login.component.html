@@ -17,13 +17,17 @@
                     <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" placeholder="password" required>
                   </div>
                   <button type="submit" class="btn btn-success d-none">Log In</button>
-                  <!-- <input [routerLink]="['/register']" type="button" class="btn btn-warning ml-3" value="Register"/> -->
                   <p class="text-center" *ngIf="invalidForm">Email or the Password does not match !!</p>
                 </form>
               </div>
 
-              <div class="col-md-5 text-center d-none d-sm-block">
-                <!-- <img src="https://placeimg.com/160/160/nature"> -->
+              <div class="col-md-5 d-none d-sm-block text-secondary">
+                  <p>To Login. ...<br>
+                    (1) - Write your email and press "Enter"<br>
+                    (2) - Write your password and press "Enter" <br><br>
+                    To get Register from. ...<br>
+                    Press "Ctrl" and say "Sign up"
+                 </p> 
               </div>
             </div>
            </div>

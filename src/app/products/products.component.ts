@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, NgZone, HostListener, Renderer2, PipeTransform } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
-// import { PipeTransform } from '@angular/core'
 import { Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -18,7 +17,7 @@ export interface IWindow extends Window {
 export class ProductsComponent implements OnInit {
   
   constructor(private route: ActivatedRoute, private productData: StoryblokService,  
-              private zone: NgZone, private router: Router, private renderer: Renderer2,
+              private zone: NgZone, private router: Router, 
               private keyListen: NgxKeyboardEventsService) { }
 
   @Input() input: string;
@@ -39,20 +38,8 @@ export class ProductsComponent implements OnInit {
 
         this.products.forEach((product) => {
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
-          this.selectArr.push(`${product.content.title}
-                               ${product.content.id}`)
         });
       });
-
-      // const productId = `${this.showArr.find(obj=>obj.id == obj.id)}`;
-      // this.productData.getStory(productId, {version: 'draft'})
-      // .then(data => {
-      //   console.log(data.story);
-      //   this.selectArr = data.story;
-  
-      // });
-
-     
 
       // TEXT TO SPEECH      
         const intro = `To listen available products, please press "P". ... ....
@@ -66,7 +53,6 @@ export class ProductsComponent implements OnInit {
             speechSynthesis.speak(msg);
         } 
         setTimeout(textSpeech, 500)
-        // textSpeech();  
  
       const sayText = () => {
         const textSpeech = () => {
@@ -77,17 +63,17 @@ export class ProductsComponent implements OnInit {
         }
         setTimeout(textSpeech, 500)
       };
-      // sayText();
+  
 
       // FUNCTIONS TO NAVIGATE PAGES
       const goHome = () => {
         this.zone.run(() => this.router.navigateByUrl('/'))
-        speechSynthesis.cancel();
+        recognition.stop()
       }
   
       const goToCart = () => {
         this.zone.run(() => this.router.navigateByUrl('/cart'))
-        speechSynthesis.cancel();
+        recognition.stop()
       }
 
       const goLinen = () => {
@@ -113,13 +99,12 @@ export class ProductsComponent implements OnInit {
 
       // KEYBOARD CONTROL
       this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-        if(keyEvent.code == 17){
+        if(keyEvent.code === 17){
           recognition.start();
-        }else if(keyEvent.code == 80) {
+          speechSynthesis.cancel();
+        }else if(keyEvent.code === 80) {
           sayText();
           speechSynthesis.cancel();
-        }else if(keyEvent.code == 13){
-          setTimeout(textSpeech, 200)
         }
       });
 
@@ -140,6 +125,7 @@ export class ProductsComponent implements OnInit {
           let last = event.results.length - 1;
           let command = event.results[last][0].transcript;
           console.log(command);     
+          //?? NEED TO MAKE IT DYNAMIC
           //?? Need to create a function to read the product title
       
           if(command.toLowerCase() === 'linen formal shirt'){          

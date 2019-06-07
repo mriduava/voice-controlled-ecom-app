@@ -2,8 +2,6 @@ import { Component, OnInit, NgZone,Input } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import * as $ from "jquery"
-
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -21,6 +19,18 @@ export class LoginComponent implements OnInit {
   invalidForm: boolean;
 
   constructor(public router: Router, private fAuth: AngularFireAuth, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
+
+
+  // FUNCTION TO LOGIN
+  login() {
+    this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
+    .then(value => {
+      this.router.navigate(['/cart/checkout']);
+    })
+    .catch(err => {
+      this.invalidForm = true;
+    });
+  }
 
   ngOnInit() { 
     // TO FOCUS EMAIL INPUT & TO HIDE PASS INPUT
@@ -53,16 +63,12 @@ export class LoginComponent implements OnInit {
       const msg = new SpeechSynthesisUtterance();    
       msg.text = `Please write your password and press "Enter" . ...`
       speechSynthesis.speak(msg)
+      return;
     }
  
     // TO NAVIGATE TO REGiSTER PAGE
     const goRegister = () => {
       this.zone.run(() => this.router.navigateByUrl('/register'))
-      speechSynthesis.cancel();
-    }
-
-    const goLogin = () => {
-      this.zone.run(() => this.router.navigateByUrl('/login'))
       speechSynthesis.cancel();
     }
 
@@ -96,8 +102,6 @@ export class LoginComponent implements OnInit {
         console.log(command);
         if(command.toLowerCase() === 'sign up'){
           goRegister();
-        }else if(command.toLowerCase() === 'sign in'){
-          goLogin()
         }
     };
     recognition.onspeechend = () => {
@@ -108,15 +112,5 @@ export class LoginComponent implements OnInit {
     }
   }
   
-  // FUNCTION TO LOGIN
-  login() {
-    this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
-    .then(value => {
-      this.router.navigate(['/cart/checkout']);
-    })
-    .catch(err => {
-      this.invalidForm = true;
-    });
-  }
 
 }

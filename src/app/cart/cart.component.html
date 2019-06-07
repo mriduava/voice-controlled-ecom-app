@@ -12,10 +12,10 @@
                 <th style="width:10%">Price</th>
                 <th style="width:8%">Quantity</th>
                 <th style="width:18%" class="text-center">Subtotal</th>
-                <th style="width:15%">Remove</th>
+                <!-- NEED TO ADD REMOVE FUNCTION -->
+                <!-- <th style="width:15%">Remove</th> -->
             </tr>
         </thead>
-     
      
         <tbody *ngFor="let item of cartData">      
             <tr>
@@ -33,19 +33,15 @@
                     <input name="quantity" min="1" type="number" class="quantity px-2" [(ngModel)]="item.content.quantity" style="width: 60px;">
                 </td>
                 <td data-th="Subtotal" class="text-center">{{item.content.price*item.content.quantity}} kr</td>
-                <td class="actions" data-th="">
-                    <!-- <button class="btn btn-info btn-sm"><i class="fa fa-sync"></i></button> -->
-                    <!-- <button class="btn btn-danger btn-sm px-2 mx-3" @click="removeItem()"><i class="fas fa-minus-square"></i></button>								 -->
-                </td>
             </tr>
         </tbody>
-         
-  
+        
         <tfoot>
             <tr>
                 <td></td>
                 <td colspan="2" class="hidden-xs"></td>
-                <td class="hidden-xs text-center">TOTAL <strong>{{total}}  kr</strong></td>
+                <!-- NEED TO ADD TOTAL FUNCTION -->
+                <!-- <td class="hidden-xs text-center">TOTAL <strong>{{total}}  kr</strong></td> -->
                 <td></td>
             </tr>
         </tfoot> 
