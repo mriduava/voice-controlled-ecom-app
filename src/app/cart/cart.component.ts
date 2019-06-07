@@ -31,11 +31,27 @@ export class CartComponent implements OnInit {
     this.cartData = this.store.cartData;
 
     this.cartData.forEach((item)=>{
-      this.textArr.push(`Products in you cartlist. ...
-                         ${item.content.title}, it's price ${item.content.price} SEK per quantity. ...`)
+      this.textArr.push(`${item.content.title}, it's price ${item.content.price} SEK per quantity. ...`)
     })
 
     // TEXT TO SPEECH
+     const cartIntro = () => {
+      const msg = new SpeechSynthesisUtterance();
+      msg.text = `You have just bought, ${((this.cartData)[(this.cartData).length - 1]).content.title}. ....
+                  There are ${(this.cartData).length} Products in your cartlist...
+                  Products in your cartlist. ....`  
+      speechSynthesis.speak(msg)
+    }
+
+      const textMore = () => {
+        const msg = new SpeechSynthesisUtterance();    
+        msg.text = `To buy more products. ...
+                    Press "Control" say "Continue". ...
+                    To go to Chekout. ...
+                    Press "Control" and say "Checkout. ..."`
+        speechSynthesis.speak(msg)
+      }
+      
       const textSpeech = () => {
         const speaks = [{name: 'Alex', lang: 'en-US'}];
         const msg = new SpeechSynthesisUtterance();
@@ -46,7 +62,9 @@ export class CartComponent implements OnInit {
         const voice = speaks[0];
         msg.lang = voice.lang;
         if(this.cartData.length>0){
+          cartIntro();
           speechSynthesis.speak(msg);
+          textMore();
         }else{
           const sorrymsg = new SpeechSynthesisUtterance();
           sorrymsg.text = `Sorry!! ... Your shopping cart is empty. ...
@@ -93,7 +111,7 @@ export class CartComponent implements OnInit {
     recognition.lang = 'en-US';
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.onresult = function(event) {
+    recognition.onresult = (event) => {
         let last = event.results.length - 1;
         let command = event.results[last][0].transcript;
         console.log(command);
