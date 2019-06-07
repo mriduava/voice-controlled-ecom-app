@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
+import { Router } from '@angular/router';
+
+export interface IWindow extends Window {
+  webkitSpeechRecognition: any;
+}
 
 @Component({
   selector: 'app-checkout',
@@ -7,15 +13,56 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
 
   ngOnInit() {
     const chekoutText = () => {
       const msg = new SpeechSynthesisUtterance();    
-      msg.text = `Your Product is going to deliver to this Address. ...`
+      msg.text = `Your Product is going to deliver to this Address. ...
+                  To Sign in. ...
+                  Press Control and say "Sign in". ... `
       speechSynthesis.speak(msg)
     }
     chekoutText();
+
+    const goLogin = () => {
+      this.zone.run(() => this.router.navigateByUrl('/login'))
+      speechSynthesis.cancel();
+    }
+
+     // TO ACTIVE KEY CONTROL
+     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
+      if(keyEvent.code == 17){
+        recognition.start();
+      }
+    });
+
+    // SPEECH TO TEXT
+    const {webkitSpeechRecognition} : IWindow = <IWindow>window;
+    const recognition = new webkitSpeechRecognition();
+    var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
+
+    var grammar = '#JSGF V1.0;'
+    var speechRecognitionList = new SpeechGrammarList();
+    speechRecognitionList.addFromString(grammar, 1);
+    recognition.grammars = speechRecognitionList;
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.onresult = (event) => {
+        let last = event.results.length - 1;
+        let command = event.results[last][0].transcript;
+        console.log(command);
+        if(command.toLowerCase() === 'sign in'){
+          goLogin();
+        }
+    };
+    recognition.onspeechend = () => {
+        recognition.stop();
+    };
+    recognition.onerror = (event) => {
+      console.log(event.error);
+    }
 
   }
 
