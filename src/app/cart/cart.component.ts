@@ -1,9 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { StoreService } from '../store.service';
+import { AuthService } from '../auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -24,11 +25,14 @@ export class CartComponent implements OnInit {
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService,
                private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) {
                 this.user=this.fAuth.authState;
+                localStorage.setItem('user', JSON.stringify(this.user))
+                
                }
 
   ngOnInit() {
     // GET DATA FROM STORE SERVICE
     this.cartData = this.store.cartData;
+    // this.cartData.push(localStorage.getItem('products'))  
 
     this.cartData.forEach((item)=>{
       this.textArr.push(`${item.content.title}, it's price ${item.content.price} SEK per quantity. ...`)
@@ -118,7 +122,7 @@ export class CartComponent implements OnInit {
         if(command.toLowerCase() === 'continue'){
           goToPro();
         }else if(command.toLowerCase() === 'check out'){
-            if(this.user){
+            if(!this.user){
               goCheckout();
             }else{
               goLogin();

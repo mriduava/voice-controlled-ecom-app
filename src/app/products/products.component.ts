@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Component, OnInit, Input, NgZone, ChangeDetectorRef } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
@@ -18,7 +18,7 @@ export class ProductsComponent implements OnInit {
   
   constructor(private route: ActivatedRoute, private productData: StoryblokService,  
               private zone: NgZone, private router: Router, 
-              private keyListen: NgxKeyboardEventsService) { }
+              private keyListen: NgxKeyboardEventsService, private changeDetector: ChangeDetectorRef) { }
 
   @Input() input: string;
 
