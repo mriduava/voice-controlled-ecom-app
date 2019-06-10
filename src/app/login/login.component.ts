@@ -1,7 +1,7 @@
-import { Component, OnInit, NgZone,Input } from '@angular/core';
+import { Component, OnInit, NgZone, Input } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from '../auth.service';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -18,18 +18,13 @@ export class LoginComponent implements OnInit {
   password: string;
   invalidForm: boolean;
 
-  constructor(public router: Router, private fAuth: AngularFireAuth, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
+  constructor(public router: Router, private zone: NgZone, 
+              private keyListen: NgxKeyboardEventsService, private serve: AuthService) { }
 
 
   // FUNCTION TO LOGIN
   login() {
-    this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
-    .then(value => {
-      this.router.navigate(['/cart/checkout']);
-    })
-    .catch(err => {
-      this.invalidForm = true;
-    });
+    this.serve.login(this.email, this.password)
   }
 
   ngOnInit() { 

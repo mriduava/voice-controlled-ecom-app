@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -13,9 +14,19 @@ export interface IWindow extends Window {
 })
 export class CheckoutComponent implements OnInit {
 
-  constructor(public router: Router, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
+  user: firebase.User
+
+  constructor(public router: Router, private zone: NgZone, 
+              private keyListen: NgxKeyboardEventsService, private serve: AuthService) { }
 
   ngOnInit() {
+    // USER INFO
+    this.serve.loggedIn()
+    .subscribe(user => {
+      this.user = user;    
+    });
+
+    // INTRO TEXT IN CHECKOUT 
     const chekoutText = () => {
       const msg = new SpeechSynthesisUtterance();    
       msg.text = `Your Product is going to deliver to this Address. ...

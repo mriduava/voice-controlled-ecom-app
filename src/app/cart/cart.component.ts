@@ -1,10 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { StoreService } from '../store.service';
-import { AuthService } from '../auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Observable} from 'rxjs';
+import { AuthService } from '../auth.service';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -16,20 +15,26 @@ export interface IWindow extends Window {
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  user: Observable<firebase.User>;
+
+  user: firebase.User
 
   cartData = [];
 
   textArr = [];
 
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService,
-               private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) {
-                this.user=this.fAuth.authState;
-                localStorage.setItem('user', JSON.stringify(this.user))
-                
-               }
+               private zone: NgZone, private router: Router, public fAuth:AngularFireAuth,
+               private serve: AuthService) {}
 
   ngOnInit() {
+    // USER LOGIN INFO
+    this.serve.loggedIn()
+    .subscribe(user => {
+      this.user = user;     
+    });
+    // localStorage.setItem('user', JSON.stringify(this.user));
+
+
     // GET DATA FROM STORE SERVICE
     this.cartData = this.store.cartData;
     // this.cartData.push(localStorage.getItem('products'))  
@@ -98,7 +103,7 @@ export class CartComponent implements OnInit {
 
     // TO ACTIVE KEY CONTROL
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      if(keyEvent.code == 17){
+      if(keyEvent.code === 17){
         recognition.start();
       }
     });
@@ -123,9 +128,9 @@ export class CartComponent implements OnInit {
           goToPro();
         }else if(command.toLowerCase() === 'check out'){
             if(!this.user){
-              goCheckout();
-            }else{
               goLogin();
+            }else{
+              goCheckout();              
             }
         }
     };
