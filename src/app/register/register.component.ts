@@ -16,6 +16,8 @@ export class RegisterComponent implements OnInit {
   email: string;
   password: string;
   invalidForm: boolean;
+
+  
   constructor(private fAuth: AngularFireAuth, public router: Router,
               private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
 

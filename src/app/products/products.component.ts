@@ -82,7 +82,7 @@ export class ProductsComponent implements OnInit {
         }
       });
 
-      // TO FILTER PRODUCT BY COMMAND TITLE
+      // TO FILTER PRODUCT BY COMMAND
       const filterProduct = (cmd: string)=>{
         this.products.filter(product=>{     
            if(product.content.title.toLowerCase() == cmd.toLowerCase()){

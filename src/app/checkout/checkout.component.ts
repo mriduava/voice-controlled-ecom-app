@@ -29,9 +29,7 @@ export class CheckoutComponent implements OnInit {
     // INTRO TEXT IN CHECKOUT 
     const chekoutText = () => {
       const msg = new SpeechSynthesisUtterance();    
-      msg.text = `Your Product is going to deliver to this Address. ...
-                  To Sign in. ...
-                  Press Control and say "Sign in". ... `
+      msg.text = `Your Product is going to deliver to this Address. ... `
       speechSynthesis.speak(msg)
     }
     chekoutText();
