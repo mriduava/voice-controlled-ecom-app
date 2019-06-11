@@ -2,8 +2,6 @@ import { Component, OnInit, Input, NgZone, ChangeDetectorRef } from '@angular/co
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
-import { Observable, interval } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 
@@ -17,15 +15,10 @@ export interface IWindow extends Window {
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  disppro: Observable<any>[];
   
   constructor(private route: ActivatedRoute, private productData: StoryblokService,  
               private zone: NgZone, private router: Router, 
-              private keyListen: NgxKeyboardEventsService, private changeDetector: ChangeDetectorRef) {
-
-                this.products.title=['Linen Formal Shirt']
-                
-               }
+              private keyListen: NgxKeyboardEventsService, private changeDetector: ChangeDetectorRef) {}
 
   @Input() input: string;
 
@@ -33,22 +26,14 @@ export class ProductsComponent implements OnInit {
 
   textArr = [];
 
-  selectArr = []; 
-  
-  // OPTIONAL ARRT FOR TEST
-  showArr = [];
-
   ngOnInit() {
       // CMS DATA CONNECTION
       this.productData.getStory('/', {version: 'draft', starts_with: 'men/'})
       .then(data => {
         this.products = data.stories;    
-
         this.products.forEach((product) => {
           this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
-          this.showArr.push(`${product.content.title}`);
         });
-        console.log(this.showArr);
       });
 
       // TEXT TO SPEECH      
@@ -86,27 +71,6 @@ export class ProductsComponent implements OnInit {
         recognition.stop()
       }
 
-      const goLinen = () => {
-        // ?? Need to create a function to get the Product ID or Params
-        this.zone.run(() => this.router.navigate(['/products', 989868], { relativeTo: this.route }))
-        speechSynthesis.cancel();
-      }
-
-      const goBlue = () => {
-        this.zone.run(() => this.router.navigate(['/products', 989866], { relativeTo: this.route }))
-        speechSynthesis.cancel();
-      }
-
-      const goBlack = () => {
-        this.zone.run(() => this.router.navigate(['/products', 989820], { relativeTo: this.route }))
-        speechSynthesis.cancel();
-      }
-
-      const goBlackWhite = () => {
-        this.zone.run(() => this.router.navigate(['/products', 989818], { relativeTo: this.route }))
-        speechSynthesis.cancel();
-      }
-
       // KEYBOARD CONTROL
       this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
         if(keyEvent.code === 17){
@@ -117,6 +81,15 @@ export class ProductsComponent implements OnInit {
           speechSynthesis.cancel();
         }
       });
+
+      // TO FILTER PRODUCT BY COMMAND TITLE
+      const filterProduct = (cmd: string)=>{
+        this.products.filter(product=>{     
+           if(product.content.title.toLowerCase() == cmd.toLowerCase()){
+             this.zone.run(() => this.router.navigate(['/products', product.id], { relativeTo: this.route }))
+           };
+         })
+       }
 
   
       // SPEECH TO TEXT    
@@ -134,40 +107,10 @@ export class ProductsComponent implements OnInit {
       recognition.onresult = function(event) {
           let last = event.results.length - 1;
           let command = event.results[last][0].transcript;
-          console.log(command);     
-          //?? NEED TO MAKE IT DYNAMIC
-          //?? Need to create a function to read the product title
+          console.log(command);               
+          filterProduct(command);
 
-          // const getProduct = (title) => {
-          //   var product = this.products.filter((item) => {
-          //       return item.title == title;
-          //   });        
-          //   return product;  
-          // }
-          // getProduct('linen formal shirt')
-
-          // const getProduct = (title) => {        
-          //       return title == 'linen formal shirt';      
-          // }
-          // var product = this.products.filter(getProduct)
-          // console.log(product);
-          
-
-      
-
-          // if(command.toLowerCase() == `${this.showArr[0]}`){
-          //   console.log(`Hi, I am `);                      
-          // }
-      
-          if(command.toLowerCase() === 'linen formal shirt'){          
-            goLinen();
-          }else if(command.toLowerCase() === 'blue formal shirt'){  
-            goBlue();
-          }else if(command.toLowerCase() === 'black collar t-shirt'){  
-            goBlack();
-          }else if(command.toLowerCase() === 'black white t-shirt'){  
-            goBlackWhite();
-          }else if(command.toLowerCase() === 'cart'){  
+          if(command.toLowerCase() === 'cart'){  
             goToCart();
           }else if(command.toLowerCase() === 'home'){  
             goHome();
@@ -180,14 +123,8 @@ export class ProductsComponent implements OnInit {
       recognition.onerror = function(event) {
         console.log(event.error);
       }        
-
-
   }
-  
-  filter(title){
-
-
-  }
+  // END ngOnInit
 
 
 
