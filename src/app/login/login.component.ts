@@ -72,10 +72,18 @@ export class LoginComponent implements OnInit {
       if(keyEvent.code == 13){       
         document.getElementById("pass-input").style.display = "block";
         document.getElementById("password").focus();
-        passText();
+        let v = setTimeout(passText, 1000);
+        if(this.invalidForm = true){
+          v;          
+        }else if(this.invalidForm = false){
+          speechSynthesis.cancel();
+          clearTimeout(v);
+        }  
       }else if(keyEvent.code === 17) {
-        speechSynthesis.cancel();
+        // speechSynthesis.cancel();
         recognition.start();
+      }else if(keyEvent.code === 80){
+        speechSynthesis.cancel();
       }
     });
 
@@ -97,6 +105,8 @@ export class LoginComponent implements OnInit {
         console.log(command);
         if(command.toLowerCase() === 'sign up'){
           goRegister();
+        }else if(command.toLowerCase() === 'submit'){
+          this.login();
         }
     };
     recognition.onspeechend = () => {
