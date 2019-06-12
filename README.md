@@ -14,10 +14,12 @@ and Fingerprint authentication. And more over to make the site userfriendly for 
 ## HOW TO USE OUR SITE
 Our eCommerce site is fully Voice-Controlled. 
 Anyone can buy product by following the nerrated instructions.
+
 For example, to listen "Available Products", it is needed to press "P", and then
 it will start to nerrate products names and prices. 
 To listen about an specific item, it needs to press "Ctrl" and then the product "title".
-N.B. Please pronounce correctly, and pronounce slowly. 
+
+**N.B. Please pronounce CORRECTLY, and SLOWLY.**
 
 ![](/screenshot/screen.png)
 
@@ -36,4 +38,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 Anyone can develop our project. 
 It is permitted to use our codes partly or fully.
 This project runs on Windows, we didn't try in other OS. 
-N.B. Presently our site is running only on google Chrome. 
+
+**N.B. Presently our site is running only on google Chrome.** 
