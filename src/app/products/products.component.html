@@ -4,9 +4,10 @@
     <div class="col-12">
         <div class="my-2">
             <ul class="intro-text">
-                <li>To listen available products, please press "P"</li> 
-                <li class="text-select">To select an item ...</li>
-                <li>Press "<span class="s">Ctrl</span>", and then say the "<span class="p-name">Product Name</span>"</li>
+                <h3 class="text-center text-info">To listen available products...</h3> 
+                <li>PLEASE PRESS "<span class="s">Ctrl</span>", & SAY "<span class="p-name">READ</span>"</li>
+                <li class="text-select">To select an item...</li>
+                <li>PRESS "<span class="s">Ctrl</span>", & SAY THE "<span class="p-name">PRODUCT NAME</span>"</li>
             </ul>
           </div>
     </div>
@@ -16,7 +17,7 @@
     <div class="card-header pro-header"><h3 class="pro-text text-center">AVAILABLE PRODUCTS</h3></div>
     <div class="card-body">
   <div class="row">
-    <div class="col-md-4 col-lg-3 com-sm-6 border-info" *ngFor="let product of products">
+    <div class="col-md-4 col-lg-3 com-sm-6 border-info p-2" *ngFor="let product of products">
       <a class="route-link" [routerLink]="['/products', product.id]"> 
       <div class="card">
            <div class="card-header pro-img">

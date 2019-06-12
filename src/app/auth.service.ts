@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
 export class AuthService {
   user: Observable<any>;
 
-  constructor(private fAuth: AngularFireAuth, private router: Router) { 
+  invalidForm: boolean;
+
+  constructor(private fAuth: AngularFireAuth, private router: Router, private zone: NgZone) { 
 
   }
 
@@ -28,7 +30,9 @@ export class AuthService {
   login(email: string, password: string) {
     this.fAuth.auth.signInWithEmailAndPassword(email, password)
     .then(value => {
-      this.router.navigate(['/cart/checkout']);
+      this.invalidForm = false;
+      this.zone.run(() => this.router.navigateByUrl('/cart/checkout'))
+      // this.router.navigate(['/cart/checkout']);
     })
     .catch(err => {
       console.log(err);

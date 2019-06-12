@@ -32,12 +32,13 @@ export class ProductsComponent implements OnInit {
       .then(data => {
         this.products = data.stories;    
         this.products.forEach((product) => {
-          this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ... `);
+          this.textArr.push(`${product.content.title}, It's price ${product.content.price} SEK ...`);
         });
       });
 
       // TEXT TO SPEECH      
-        const intro = `To listen available products, please press "P". ... ....
+        const intro = `To listen available products. ...
+                       Please press "Control", and say "Read". ... ....
                        To select an item. ...
                        Press "Control", and then say the "Product Name". ...`
         const textSpeech = () => {
@@ -76,9 +77,6 @@ export class ProductsComponent implements OnInit {
         if(keyEvent.code === 17){
           recognition.start();
           speechSynthesis.cancel();
-        }else if(keyEvent.code === 80) {
-          sayText();
-          speechSynthesis.cancel();
         }
       });
 
@@ -114,6 +112,8 @@ export class ProductsComponent implements OnInit {
             goToCart();
           }else if(command.toLowerCase() === 'home'){  
             goHome();
+          }else if(command.toLowerCase() === 'read'){
+            sayText();            
           }
         
       };

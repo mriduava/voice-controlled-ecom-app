@@ -48,7 +48,7 @@ export class CartComponent implements OnInit {
       const msg = new SpeechSynthesisUtterance();
       msg.text = `You have just bought, ${((this.cartData)[(this.cartData).length - 1]).content.title}. ....
                   There are ${(this.cartData).length} Products in your cartlist...
-                  Products in your cartlist. ....`  
+                  Products in your Shoppin Cart. ....`  
       speechSynthesis.speak(msg)
     }
 

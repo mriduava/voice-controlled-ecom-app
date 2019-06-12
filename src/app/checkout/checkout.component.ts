@@ -39,6 +39,11 @@ export class CheckoutComponent implements OnInit {
       speechSynthesis.cancel();
     }
 
+    const goProduct = () => {
+      this.zone.run(() => this.router.navigateByUrl('/products'))
+      speechSynthesis.cancel();
+    }
+
      // TO ACTIVE KEY CONTROL
      this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code == 17){
@@ -63,6 +68,11 @@ export class CheckoutComponent implements OnInit {
         let command = event.results[last][0].transcript;
         console.log(command);
         if(command.toLowerCase() === 'sign in'){
+          goLogin();
+        }else if(command.toLowerCase() === 'product'){
+          goProduct();
+        }else if(command.toLowerCase() === 'log out'){
+          this.serve.signOut();
           goLogin();
         }
     };

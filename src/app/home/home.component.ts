@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code === 17){
         recognition.start();
-        speechSynthesis.cancel();
+        // setTimeout(textSpeech, 7000)
       }else if(keyEvent.code === 80) {
         // sayText();
         speechSynthesis.cancel();
