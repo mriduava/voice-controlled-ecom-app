@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
 
     // TEXT TO SPEECH      
     const intro = `Supernova. ... ....
-                   Online Shopt for Visually impaired person. ... ...
+                   Online Shop for Visually impaired person. ... ...
                    To go to see Products. ...
                    Press "Control", and then say "Product". ...`
     const textSpeech = () => {
@@ -53,7 +53,6 @@ export class HomeComponent implements OnInit {
         recognition.start();
         // setTimeout(textSpeech, 7000)
       }else if(keyEvent.code === 80) {
-        // sayText();
         speechSynthesis.cancel();
       }
     });
