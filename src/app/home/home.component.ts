@@ -18,13 +18,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    const playAudio = () => {
-      let audio = new Audio();
-      audio.src = "./assets/welcome.wav";
-      audio.load();
-      audio.play();
-    }
-    playAudio();
+    // const playAudio = () => {
+    //   let audio = new Audio();
+    //   audio.src = "./assets/welcome.wav";
+    //   audio.load();
+    //   audio.play();
+    // }
+    // playAudio();
 
     // TEXT TO SPEECH      
     const intro = `Supernova. ... ....
@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     msg.lang = 'en-US';
     speechSynthesis.speak(msg);
     } 
-    setTimeout(textSpeech, 7000)
+    setTimeout(textSpeech, 3000)
 
     // FUNCTIONS TO NAVIGATE PAGES
     const goProduct = () => {
