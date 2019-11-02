@@ -1,7 +1,7 @@
-import { Component, OnInit, NgZone,Input } from '@angular/core';
+import { Component, OnInit, NgZone, Input } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from '../auth.service';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -18,18 +18,13 @@ export class LoginComponent implements OnInit {
   password: string;
   invalidForm: boolean;
 
-  constructor(public router: Router, private fAuth: AngularFireAuth, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
+  constructor(public router: Router, private zone: NgZone, 
+              private keyListen: NgxKeyboardEventsService, private serve: AuthService) { }
 
 
   // FUNCTION TO LOGIN
   login() {
-    this.fAuth.auth.signInWithEmailAndPassword(this.email, this.password)
-    .then(value => {
-      this.router.navigate(['/cart/checkout']);
-    })
-    .catch(err => {
-      this.invalidForm = true;
-    });
+    this.serve.login(this.email, this.password)
   }
 
   ngOnInit() { 
@@ -61,7 +56,8 @@ export class LoginComponent implements OnInit {
     // VOICE TEXT TO FILL PASSWORD
     const passText = () => {
       const msg = new SpeechSynthesisUtterance();    
-      msg.text = `Please write your password and press "Enter" . ...`
+      msg.text = `Please write your password. ...
+                  and then press "Ctrl" and say "Send" . ...`
       speechSynthesis.speak(msg)
       return;
     }
@@ -77,10 +73,18 @@ export class LoginComponent implements OnInit {
       if(keyEvent.code == 13){       
         document.getElementById("pass-input").style.display = "block";
         document.getElementById("password").focus();
-        passText();
+        let v = setTimeout(passText, 500);
+        if(this.invalidForm = true){
+          v;          
+        }else if(this.invalidForm = false){
+          clearTimeout(v);
+          speechSynthesis.cancel();
+        }  
       }else if(keyEvent.code === 17) {
         speechSynthesis.cancel();
         recognition.start();
+      }else if(keyEvent.code === 80){
+        speechSynthesis.cancel();
       }
     });
 
@@ -100,8 +104,10 @@ export class LoginComponent implements OnInit {
         let last = event.results.length - 1;
         let command = event.results[last][0].transcript;
         console.log(command);
-        if(command.toLowerCase() === 'sign up'){
+        if(command.toLowerCase() == 'sign up'){
           goRegister();
+        }else if(command.toLowerCase() == 'send'){
+          this.login();
         }
     };
     recognition.onspeechend = () => {

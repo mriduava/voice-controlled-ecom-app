@@ -2,10 +2,9 @@
 **Online Shop for visually impaired person**
 
 
-## THE TEAM & OUR GOAL 
-We are the team of four Collaborators, DEEPTHY NAIR, JAYA VERMA, NABANITA DATTA & MARUF AHMED.
-This is our very little attempt to give the light to those people who doesn't have in their life. 
-We tried to build an eCommerce site, from where a visually impaired person can buy products without 
+## THE GOAL 
+This is a very little attempt to give the light to those people who doesn't have in their life. 
+Tried to build an eCommerce site, from where a visually impaired person can buy products without 
 the help of others.
 
 The idea was proposed by Deepthy, and we all tried to make it real. We are trying to implent Face Recognition, 
@@ -19,7 +18,11 @@ For example, to listen "Available Products", it is needed to press "P", and then
 it will start to nerrate products names and prices. 
 To listen about an specific item, it needs to press "Ctrl" and then the product "title".
 
+<<<<<<< HEAD
 **N.B. Please pronounce _CORRECTLY_, and pronounce _SLOWLY_.**
+=======
+**N.B. Please pronounce CORRECTLY, and SLOWLY.**
+>>>>>>> develop
 
 ![](/screenshot/screen.png)
 

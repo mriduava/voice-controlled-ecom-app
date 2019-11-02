@@ -17,7 +17,21 @@
                   <label for="password">Password</label>
                   <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" placeholder="password" required>
                 </div>
-                <button type="submit" class="btn btn-success d-none">Rgister</button>
+
+                <!-- <div class="form-group">
+                  <label for="address" class="">Address</label>
+                  <input type="text" id="address" class="form-control" placeholder="Street">                
+                </div> -->
+        
+                <!--address-2-->
+                <!-- <div class="form-group">
+                  <input type="text" id="address-2" class="form-control" placeholder="Apartment number">                
+                </div> -->
+
+
+
+
+                <!-- <button type="submit" class="btn btn-success d-none">Rgister</button> -->
               
                 <p class="center" *ngIf="invalidForm">Passoword should be at least 6 characters</p>
               </form>
@@ -26,8 +40,9 @@
               <div class="col-md-5 d-none d-sm-block text-secondary">
                 <p>To Register. ...<br>
                    (1) - Please write your email and press "Enter"<br>
-                   (2) - Please write your password and press "Enter"<br><br>
-                   To get Login from. ...<br>
+                   (2) - Please write your password. <br> 
+                         and then Press "Ctrl" and say "Send".<br><br>
+                   To get Sing in from. ...<br>
                    Press "Ctrl" and say "Sign in"
                 </p>            
               </div>

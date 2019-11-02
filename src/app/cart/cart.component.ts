@@ -3,7 +3,7 @@ import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events'
 import { StoreService } from '../store.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -15,20 +15,29 @@ export interface IWindow extends Window {
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  user: Observable<firebase.User>;
+
+  user: firebase.User
 
   cartData = [];
 
   textArr = [];
 
   constructor(private store: StoreService, private keyListen: NgxKeyboardEventsService,
-               private zone: NgZone, private router: Router, public fAuth:AngularFireAuth) {
-                this.user=this.fAuth.authState;
-               }
+               private zone: NgZone, private router: Router, public fAuth:AngularFireAuth,
+               private serve: AuthService) {}
 
   ngOnInit() {
+    // USER LOGIN INFO
+    this.serve.loggedIn()
+    .subscribe(user => {
+      this.user = user;     
+    });
+    // localStorage.setItem('user', JSON.stringify(this.user));
+
+
     // GET DATA FROM STORE SERVICE
     this.cartData = this.store.cartData;
+    // this.cartData.push(localStorage.getItem('products'))  
 
     this.cartData.forEach((item)=>{
       this.textArr.push(`${item.content.title}, it's price ${item.content.price} SEK per quantity. ...`)
@@ -39,14 +48,16 @@ export class CartComponent implements OnInit {
       const msg = new SpeechSynthesisUtterance();
       msg.text = `You have just bought, ${((this.cartData)[(this.cartData).length - 1]).content.title}. ....
                   There are ${(this.cartData).length} Products in your cartlist...
-                  Products in your cartlist. ....`  
+                  Products in your Shopping Cart. ....`  
       speechSynthesis.speak(msg)
-    }
+     }
 
       const textMore = () => {
         const msg = new SpeechSynthesisUtterance();    
         msg.text = `To buy more products. ...
-                    Press "Control" say "Continue". ...
+                    Press "Control", and say "Continue". ...
+                    To Remove an item. ...
+                    Press "Control" and say "Remove" and the "Product name". ...
                     To go to Chekout. ...
                     Press "Control" and say "Checkout. ..."`
         speechSynthesis.speak(msg)
@@ -75,6 +86,33 @@ export class CartComponent implements OnInit {
 
       };
       setTimeout(textSpeech, 1000);
+      
+      // VOICE AFTER REMOVE ITEM
+      const cartRemove = () => {
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = `There are ${(this.cartData).length} Products in your cartlist...
+                    Products in your Shopping Cart. ....`  
+        speechSynthesis.speak(msg)
+       }
+
+      const removeSpeech = () => {
+        const msg = new SpeechSynthesisUtterance();
+        msg.text  = `${this.textArr}`;
+        if(this.cartData.length>0){
+          cartRemove();
+          speechSynthesis.speak(msg);
+          textMore();
+        }else{
+          const sorrymsg = new SpeechSynthesisUtterance();
+          sorrymsg.text = `Sorry!! ... Your shopping cart is empty. ...
+                           To buy a product. ...
+                           Please press "Control" and then say "Continue". ...`
+          speechSynthesis.speak(sorrymsg);
+        }
+
+      };
+
+
 
     // FUNCTIONS TO NAVIGATE
     const goToPro = () => {
@@ -94,10 +132,25 @@ export class CartComponent implements OnInit {
 
     // TO ACTIVE KEY CONTROL
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      if(keyEvent.code == 17){
+      if(keyEvent.code === 17){
         recognition.start();
       }
     });
+
+    const removeProduct = (cmd: string)=>{
+      this.cartData.forEach((product, i)=>{ 
+        let title = `remove ${product.content.title.toLowerCase()}`    
+         if(title === cmd.toLowerCase()){
+           this.cartData.splice(i, 1)  
+           this.zone.run(() => this.router.navigateByUrl('/cart')) 
+              const msg = new SpeechSynthesisUtterance();    
+              msg.text = `${product.content.title}, has been removed. ...`
+              speechSynthesis.speak(msg)  
+           removeSpeech();      
+         };
+       })
+     }
+
 
     // SPEECH TO TEXT
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;
@@ -115,13 +168,18 @@ export class CartComponent implements OnInit {
         let last = event.results.length - 1;
         let command = event.results[last][0].transcript;
         console.log(command);
+        removeProduct(command)
         if(command.toLowerCase() === 'continue'){
           goToPro();
-        }else if(command.toLowerCase() === 'check out'){
-            if(this.user){
-              goCheckout();
-            }else{
+        }
+        // else if(command.toLowerCase() === 'remove'){
+          
+        // }
+        else if(command.toLowerCase() === 'check out'){
+            if(!this.user){
               goLogin();
+            }else{
+              goCheckout();              
             }
         }
     };

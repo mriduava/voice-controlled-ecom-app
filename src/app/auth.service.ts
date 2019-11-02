@@ -1,20 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  user: Observable<firebase.User>;
 
-  constructor(private fireAuth: AngularFireAuth) { 
-    this.user = fireAuth.authState;
+export class AuthService {
+  user: Observable<any>;
+
+  invalidForm: boolean;
+
+  constructor(private fAuth: AngularFireAuth, private router: Router, private zone: NgZone) { 
+
   }
 
   signUp(email: string, password: string) {
-    this.fireAuth.auth.createUserWithEmailAndPassword(email, password)
+    this.fAuth.auth.createUserWithEmailAndPassword(email, password)
     .then(value => {
       console.log(value);
       return value;
@@ -25,9 +28,11 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    this.fireAuth.auth.signInWithEmailAndPassword(email, password)
+    this.fAuth.auth.signInWithEmailAndPassword(email, password)
     .then(value => {
-
+      this.invalidForm = false;
+      this.zone.run(() => this.router.navigateByUrl('/cart/checkout'))
+      // this.router.navigate(['/cart/checkout']);
     })
     .catch(err => {
       console.log(err);
@@ -35,7 +40,11 @@ export class AuthService {
   }
 
   signOut() {
-    this.fireAuth.auth.signOut();
+    this.fAuth.auth.signOut();
+  }
+
+  loggedIn() {
+    return this.fAuth.authState;
   }
 
 }

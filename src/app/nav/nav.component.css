@@ -1,3 +1,7 @@
+
+.navbar> a{
+    color: #c9a32b;
+}
 .navbar-brand{
     font-size: 2rem;
     color: bisque;

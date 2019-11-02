@@ -16,6 +16,8 @@ export class RegisterComponent implements OnInit {
   email: string;
   password: string;
   invalidForm: boolean;
+
+  
   constructor(private fAuth: AngularFireAuth, public router: Router,
               private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
 
@@ -47,7 +49,8 @@ export class RegisterComponent implements OnInit {
       const passText = () => {
         const msg = new SpeechSynthesisUtterance();    
         msg.text = `Password should be atleast 6 characters. ...
-                    Please write correct passord and press "Enter. ...`
+                    Please write correct passord. ...
+                    and then Press "Control" and say "Send". ...`
         speechSynthesis.speak(msg)
       }
    
@@ -60,15 +63,11 @@ export class RegisterComponent implements OnInit {
   
       // TO ACTIVE KEY CONTROL
       this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-        if(keyEvent.code == 13){       
+        if(keyEvent.code === 13){       
           document.getElementById("pass-input").style.display = "block";
           document.getElementById("password").focus(); 
-          passText();
-          if(keyEvent.code == 13){
-              speechSynthesis.cancel(); 
-          }         
+          passText();     
         }else if(keyEvent.code === 17) {
-          speechSynthesis.cancel();
           recognition.start();
         }
       });
@@ -91,6 +90,8 @@ export class RegisterComponent implements OnInit {
           console.log(command);
           if(command.toLowerCase() === 'sign in'){
             goLogin();
+          }else if(command.toLowerCase() === 'send'){
+            this.register();
           }
       };
       recognition.onspeechend = () => {
@@ -105,7 +106,8 @@ export class RegisterComponent implements OnInit {
   register() {
     this.fAuth.auth.createUserWithEmailAndPassword(this.email, this.password)
     .then(value => {
-      this.router.navigate(['/cart/checkout']);
+      this.zone.run(() => this.router.navigateByUrl('/cart/checkout'))
+      // this.router.navigate(['/cart/checkout']);
     })
     .catch(err => {
       this.invalidForm = true;

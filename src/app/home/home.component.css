@@ -1,0 +1,47 @@
+.container{
+    margin-top: -105px;
+}
+
+.portrait .brand{
+    font-size: 3rem;
+    color: #c9a32b;
+}
+
+ul{
+    list-style: none;
+}
+
+ul li{
+    font-size:  1.2rem;
+}
+
+ul .text-select{
+    color: rgb(0, 174, 255);
+    font-size: 1.5rem;
+}
+ul .s{
+    font-size: 1.5rem;
+    color: rgb(255, 41, 41);
+}
+
+ul .p-name{
+    font-size: 1.5rem;
+    color: rgb(255, 41, 41);
+}
+
+.pro-header{
+   background: none;
+}
+.pro-text{   
+    color: #c9a32b;
+}
+
+.pro-img{
+    width: 100%;
+    height: 290px;
+    overflow: hidden;
+}
+
+.pro-body{
+    background: #fff;
+}

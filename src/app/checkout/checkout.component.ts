@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -13,20 +14,33 @@ export interface IWindow extends Window {
 })
 export class CheckoutComponent implements OnInit {
 
-  constructor(public router: Router, private zone: NgZone, private keyListen: NgxKeyboardEventsService) { }
+  user: firebase.User
+
+  constructor(public router: Router, private zone: NgZone, 
+              private keyListen: NgxKeyboardEventsService, private serve: AuthService) { }
 
   ngOnInit() {
+    // USER INFO
+    this.serve.loggedIn()
+    .subscribe(user => {
+      this.user = user;    
+    });
+
+    // INTRO TEXT IN CHECKOUT 
     const chekoutText = () => {
       const msg = new SpeechSynthesisUtterance();    
-      msg.text = `Your Product is going to deliver to this Address. ...
-                  To Sign in. ...
-                  Press Control and say "Sign in". ... `
+      msg.text = `Your Product is going to deliver to this Address. ... `
       speechSynthesis.speak(msg)
     }
     chekoutText();
 
     const goLogin = () => {
       this.zone.run(() => this.router.navigateByUrl('/login'))
+      speechSynthesis.cancel();
+    }
+
+    const goProduct = () => {
+      this.zone.run(() => this.router.navigateByUrl('/products'))
       speechSynthesis.cancel();
     }
 
@@ -54,6 +68,11 @@ export class CheckoutComponent implements OnInit {
         let command = event.results[last][0].transcript;
         console.log(command);
         if(command.toLowerCase() === 'sign in'){
+          goLogin();
+        }else if(command.toLowerCase() === 'product'){
+          goProduct();
+        }else if(command.toLowerCase() === 'log out'){
+          this.serve.signOut();
           goLogin();
         }
     };
