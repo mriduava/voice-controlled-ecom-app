@@ -18,11 +18,7 @@ For example, to listen "Available Products", it is needed to press "P", and then
 it will start to nerrate products names and prices. 
 To listen about an specific item, it needs to press "Ctrl" and then the product "title".
 
-<<<<<<< HEAD
-**N.B. Please pronounce _CORRECTLY_, and pronounce _SLOWLY_.**
-=======
 **N.B. Please pronounce CORRECTLY, and SLOWLY.**
->>>>>>> develop
 
 ![](/screenshot/screen.png)
 
@@ -35,7 +31,7 @@ To convert Text to Speech & Speech to Text, we used SpeechSynthesis & SpeechReco
 
 ## HOW TO RUN
 This project was generated with Angular CLI version 7.3.6. <br>
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
+Run `ng start` for a dev server. Navigate to `http://localhost:4200/`. 
 
 ## HOW TO DEVELOP
 Anyone can develop our project. 

@@ -29,6 +29,7 @@
     "jquery": "^3.4.1",
     "ngx-bootstrap": "^4.2.0",
     "ngx-keyboard-events": "^0.1.10",
+    "now": "^16.4.4",
     "rxjs": "~6.3.3",
     "storyblok-js-client": "^1.0.22",
     "tslib": "^1.9.0",
