@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
 
-  recStart(event);
+ 
 }
 
 @Component({
