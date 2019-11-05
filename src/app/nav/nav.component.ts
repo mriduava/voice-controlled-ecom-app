@@ -50,8 +50,11 @@ export class NavComponent implements OnInit {
         }            
     };
 
+    //var circle = document.querySelector("circle");
+    
     this.recStart= (event) => {
-      recognition.start();
+      //recognition.start();
+      goProduct();
     }
     recognition.onspeechend = function() {
         recognition.stop();

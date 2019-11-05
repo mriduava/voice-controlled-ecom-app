@@ -39,3 +39,6 @@ It is permitted to use our codes partly or fully.
 This project runs on Windows, we didn't try in other OS. 
 
 **N.B. Presently our site is running only on google Chrome.** 
+
+&amp:copy 2019 MARUF AHMED
+Licensed under the MIT License.

@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     msg.lang = 'en-US';
     speechSynthesis.speak(msg);
     } 
-    setTimeout(textSpeech, 3000)
+    setTimeout(textSpeech, 2000)
 
     // FUNCTIONS TO NAVIGATE PAGES
     const goProduct = () => {
