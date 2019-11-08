@@ -17,15 +17,6 @@ export class HomeComponent implements OnInit {
   constructor( private zone: NgZone, private keyListen: NgxKeyboardEventsService, private router: Router) { }
 
   ngOnInit() {
-
-    // const playAudio = () => {
-    //   let audio = new Audio();
-    //   audio.src = "./assets/welcome.wav";
-    //   audio.load();
-    //   audio.play();
-    // }
-    // playAudio();
-
     // TEXT TO SPEECH      
     const intro = `Supernova. ... ....
                    Online Shop for Visually impaired person. ... ...
@@ -51,7 +42,6 @@ export class HomeComponent implements OnInit {
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code === 17){
         recognition.start();
-        // setTimeout(textSpeech, 7000)
       }else if(keyEvent.code === 80) {
         speechSynthesis.cancel();
       }
@@ -75,6 +65,7 @@ export class HomeComponent implements OnInit {
          console.log(command);              
 
          if(command.toLowerCase() === 'product'){  
+           speechSynthesis.cancel();
            goProduct();
          }
        
