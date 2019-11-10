@@ -1,47 +1,46 @@
 # SUPERNOVA
-**Online Shop for visually impaired person**
+**Online Shop for visually impaired person**<br>
+>A Voice Controlled E-Commerce Web Application
+>Demo site: https://supernova.mriduava.now.sh
+**N.B. Use google Chrome on Computer. Not Mobile Friedly.** <br>
+
+> @idea : DEEPTHY NAIR<br>
+> @code : MARUF AHMED<br>
+> @email: maruf.ahmed@live.se
+> @since: JUNE 2019<br>
 
 
 ## THE GOAL 
-This is a very little attempt to give the light to those people who doesn't have in their life. 
-Tried to build an eCommerce site, from where a visually impaired person can buy products without 
-the help of others.
+As technology is developing day by day, there should have an equality among all sorts of people of getting benefits from this technology. The idea behind developing this site was to provide an online experience to visually impaired people, as well as abled person. It would be nice if a visually impaired person could buy his/her necessary products from online without any help of others. From that perspective of view, this is a very little attempt to build an e-commerce site, from where anyone can buy products by following the narrated instructions. For example, to listen about "Available Products", it is needed to say "Read" after pressing the "Ctrl", and then it will start to narrate products' names and prices. To listen about a specific item, it needs to say the product "title" after the "Ctrl" button is pressed. <br>
+<br>
+The idea was proposed by Deepthy Nair, and she also proposed to add Face Recognition to authenticate the user. Applying facerecognition with JavaScript is a little bit challenging, but it can be possible. It can also be excellent to authenticate the user by Fingerprint Authentication, which was first proposed by Jaya Verma. Moreove it would be great to make the site userfriendly for those people who are Color Vision Impaired.
 
-The idea was proposed by Deepthy Nair, and we tried to make it real. Deepthy also proposed to add Face Recognition, but so far it's not done yet, we are working on it. It can also be added Fingerprint Authentication, which was first proposed by Joya Verma. It would be nice to make the site userfriendly for Color Blind.
-
-## HOW TO USE OUR SITE
-Our eCommerce site is fully Voice-Controlled. 
-Anyone can buy product by following the nerrated instructions.
-
-For example, to listen "Available Products", it is needed to press "Ctrl", and then
-it will start to nerrate products' names and prices. 
-To listen about a specific item, it needs to press "Ctrl" and then the product "title".
-
-**N.B. Please pronounce CORRECTLY, and SLOWLY.**
+## FUNCTIONALITIES
+* The eCommerce site is fully Voice-Controlled. 
+* User can add products to the cartlist by voice command.
+* Use can remove an item from teh carlist.
+* User can register and login. 
 
 ![](/screenshot/screen.png)
 
 ## WHAT IS BEHIND THE SCENE
-The project is built on Angular 7.
-We use Firebase for user Login and Registrations.
-CMS is used to display the products. We uploaded all our products data to a CMS site, and
-it generated an API.
-To convert Text to Speech & Speech to Text, we used SpeechSynthesis & SpeechRecognition API.
+* The project was generated with Angular CLI version 7.3.9.
+* Firebase was used to Login and Registration functionalities.
+* CMS is used to display the products. All products data were uploaded to a CMS site. 
+* To convert Text to Speech & Speech to Text, we used SpeechSynthesis & SpeechRecognition API.
 
-## HOW TO RUN
-This project was generated with Angular CLI version 7.3.6. <br>
-Run `ng start` for a dev server. Navigate to `http://localhost:4200/`. 
+## HOW TO RUN LOCALLY
+* Clone all files from the 'master' branch. <br>
+* Install all dependencies. 
+> npm install
+* Run from command prompt
+> ng serve
+* Navigate to (Google Chrome) `http://localhost:4200/`. 
 
 ## HOW TO DEVELOP
-Anyone can develop our project. <br>
-This project runs on Windows, we didn't try in other OS. 
+To develop the project, please clone from the 'develop' branch and inform me by email (maruf.ahmed@live.se). <br>
+This project runs on Windows, we didn't try in other OS.<br>
 
-**N.B. Presently our site is running only on google Chrome on Computer. Not Mobile Friedly.** <br>
-Demo site: https://supernova.mriduava.now.sh
 
->> &copy; 2019 MARUF AHMED
->> @idea: DEEPTHY NAIR
->> @code: MARUF AHMED
->> @since: JUNE 2019
-
-Licensed under the [MIT License](LICENSE).
+&copy; 2019 MARUF AHMED<br> 
+Licensed under the [MIT License](LICENSE). 
