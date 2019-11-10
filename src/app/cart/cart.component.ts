@@ -171,11 +171,7 @@ export class CartComponent implements OnInit {
         removeProduct(command)
         if(command.toLowerCase() === 'continue'){
           goToPro();
-        }
-        // else if(command.toLowerCase() === 'remove'){
-          
-        // }
-        else if(command.toLowerCase() === 'check out'){
+        }else if(command.toLowerCase() === 'check out'){
             if(!this.user){
               goLogin();
             }else{

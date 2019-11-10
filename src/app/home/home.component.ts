@@ -42,15 +42,13 @@ export class HomeComponent implements OnInit {
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code === 17){
         recognition.start();
-      }else if(keyEvent.code === 80) {
-        speechSynthesis.cancel();
       }
     });
 
      // SPEECH TO TEXT    
      const {webkitSpeechRecognition} : IWindow = <IWindow>window;
      const recognition = new webkitSpeechRecognition();
-     var SpeechGrammarList = SpeechGrammarList ||window['webkitSpeechGrammarList'];
+     var SpeechGrammarList = SpeechGrammarList || window['webkitSpeechGrammarList'];
      
      var grammar = '#JSGF V1.0;'
      var speechRecognitionList = new SpeechGrammarList();

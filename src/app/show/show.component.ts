@@ -19,7 +19,7 @@ export class ShowComponent implements OnInit {
 
   product: any = [];
 
-  //cartItem: any = [];
+  cartItem: any = [];
 
   textArr: any = [];
 
@@ -32,7 +32,7 @@ export class ShowComponent implements OnInit {
     this.showItem.getStory(productId, {version: 'draft'})
     .then(data => {
       this.product = data.story.content;
-      //this.cartItem = data.story;
+      this.cartItem = data.story;
       
       // TO NERRATE PRODUCT DETAILS
       this.textArr.push(`${this.product.title} has been selected, 
@@ -45,10 +45,10 @@ export class ShowComponent implements OnInit {
     });
 
     // ADD TO CART
-    // const addToCart = () => {
-    //   this.store.cartData.push(this.cartItem);
-    //   localStorage.setItem('products', JSON.stringify(this.cartItem))
-    // }
+    const addToCart = () => {
+      this.store.cartData.push(this.cartItem);
+      localStorage.setItem('products', JSON.stringify(this.cartItem))
+    }
 
     // TEXT TO SPEECH
     const sayText = () => {
@@ -108,7 +108,7 @@ export class ShowComponent implements OnInit {
           goToPro();
         }else if(command.toLowerCase() === 'bye'){ 
           speechSynthesis.cancel(); 
-          //addToCart();
+          addToCart();
           goToCart();      
         }
       
