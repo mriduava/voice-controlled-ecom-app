@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, NgZone} from '@angular/core';
+import { Router } from '@angular/router';
 
 
 
@@ -10,18 +11,25 @@ import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 export class NavComponent implements OnInit {
 
 
-  constructor(private changeDetector: ChangeDetectorRef) { }
+  constructor(private zone: NgZone, private router: Router) { }
 
   ngOnInit() {
+
+    const goProduct = () => {
+      this.zone.run(() => this.router.navigateByUrl('/products'));
+      speechSynthesis.cancel();
+    }
 
     var circle = document.getElementById("circle");
     function once() {
       const msg = new SpeechSynthesisUtterance();
       msg.text = "";
-      speechSynthesis.speak(msg);     
-      circle.removeEventListener("click", once);
+      speechSynthesis.speak(msg);  
+      goProduct();   
+     // circle.removeEventListener("click", once);
     }
     circle.addEventListener("click", once);
+
   }
 
 

@@ -1,7 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
-import { ActivatedRoute } from '@angular/router';
-import {Router} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { StoryblokService } from '../storyblok.service';
 import { StoreService } from '../store.service';
 
@@ -71,22 +70,39 @@ export class ShowComponent implements OnInit {
     const goToPro = () => {
       this.zone.run(() => this.router.navigateByUrl('/products'))
       speechSynthesis.cancel();
+      recognition.stop();
+      checkKeyPressed();
     }
 
     const goToCart = () => {
       this.zone.run(() => this.router.navigateByUrl('/cart'))
       speechSynthesis.cancel();
+      recognition.stop();
+      checkKeyPressed();
     }
 
+    const playAudio = () => {
+      let audio = new Audio();
+      audio.src = "./assets/bleep.wav";
+      audio.load();
+      audio.volume = 0.1;
+      audio.play();
+    }
     // KEYBOARD EVENT
-    this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      if(keyEvent.code == 17){
-        recognition.start();
-        speechSynthesis.cancel();
-      }else if(keyEvent.code === 80){
-        speechSynthesis.cancel();
+    let keyPressed = false;
+      this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
+        if(keyPressed === false && keyEvent.code === 17){
+          speechSynthesis.cancel();
+          recognition.start();
+          playAudio();
+          keyPressed = true;
+          setTimeout(checkKeyPressed, 10000);
+        }
+      });
+
+      function checkKeyPressed(){
+        return keyPressed = false;
       }
-    });
 
     // SPEECH TO TEXT    
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;
@@ -106,10 +122,12 @@ export class ShowComponent implements OnInit {
     
         if(command.toLowerCase() === 'continue'){     
           goToPro();
+          checkKeyPressed();
         }else if(command.toLowerCase() === 'bye'){ 
           speechSynthesis.cancel(); 
           addToCart();
-          goToCart();      
+          goToCart();  
+          checkKeyPressed();    
         }
       
     };

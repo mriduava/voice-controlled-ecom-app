@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       msg.text =  `You are in Signin page. ...
                   If you are not registered yet. ..., 
                   Please Register first. ...
-                  To get the Sign up form. ...
+                  To get the register form. ...
                   Plese press "Control" and say "Sign Up". ...`
       speechSynthesis.speak(msg)
       const emailText = () => {
@@ -68,7 +68,15 @@ export class LoginComponent implements OnInit {
       speechSynthesis.cancel();
     }
 
+    const playAudio = () => {
+      let audio = new Audio();
+      audio.src = "./assets/bleep.wav";
+      audio.load();
+      audio.volume = 0.1;
+      audio.play();
+    }
     // TO ACTIVE KEY CONTROL
+    let keyPressed = false;
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
       if(keyEvent.code == 13){       
         document.getElementById("pass-input").style.display = "block";
@@ -83,10 +91,19 @@ export class LoginComponent implements OnInit {
       }else if(keyEvent.code === 17) {
         speechSynthesis.cancel();
         recognition.start();
+        playAudio();
+        keyPressed = true;
+        setTimeout(checkKeyPressed, 10000);
       }else if(keyEvent.code === 80){
         speechSynthesis.cancel();
+      }else if(keyEvent.code === 18){
+        recognition.stop();
       }
     });
+
+    function checkKeyPressed(){
+      return keyPressed = false;
+    }
 
     // SPEECH TO TEXT
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;

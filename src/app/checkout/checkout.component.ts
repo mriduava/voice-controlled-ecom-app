@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { NgxKeyboardEventsService, NgxKeyboardEvent } from 'ngx-keyboard-events';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { User } from 'firebase';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -14,7 +15,9 @@ export interface IWindow extends Window {
 })
 export class CheckoutComponent implements OnInit {
 
-  user: firebase.User
+  user: firebase.User;
+
+  email = [];
 
   constructor(public router: Router, private zone: NgZone, 
               private keyListen: NgxKeyboardEventsService, private serve: AuthService) { }
@@ -23,13 +26,17 @@ export class CheckoutComponent implements OnInit {
     // USER INFO
     this.serve.loggedIn()
     .subscribe(user => {
-      this.user = user;    
+      this.user = user;
+
+      this.email.push(user.providerData[0].email);
+      console.log(this.email);
+      
     });
 
     // INTRO TEXT IN CHECKOUT 
     const chekoutText = () => {
       const msg = new SpeechSynthesisUtterance();    
-      msg.text = `Your Product is going to deliver to this Address. ... `
+      msg.text = `Your email address is ${this.email[0]}.... Your Product is going to deliver to this Address. ... `
       speechSynthesis.speak(msg)
     }
     chekoutText();
@@ -45,11 +52,19 @@ export class CheckoutComponent implements OnInit {
     }
 
      // TO ACTIVE KEY CONTROL
-     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      if(keyEvent.code == 17){
+     let keyPressed = false;
+    this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
+      if(keyPressed === false && keyEvent.code === 17){
+        speechSynthesis.cancel();
         recognition.start();
+        keyPressed = true;
+        setTimeout(checkKeyPressed, 10000);
       }
     });
+
+    function checkKeyPressed(){
+      return keyPressed = false;
+    }
 
     // SPEECH TO TEXT
     const {webkitSpeechRecognition} : IWindow = <IWindow>window;

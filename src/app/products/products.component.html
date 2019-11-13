@@ -1,4 +1,4 @@
-<div class="container-fluid mt-2 mb-5 bg-light">
+<div class="container-fluid mt-2 mb-5 bg-light col-11">
 
   <div class="row">
     <div class="col-12">
@@ -13,11 +13,11 @@
     </div>
   </div>
 
-  <div class="card border-info pro-body">
+  <div class="card border-secondary pro-body">
     <div class="card-header pro-header"><h3 class="pro-text text-center">AVAILABLE PRODUCTS</h3></div>
     <div class="card-body">
   <div class="row">
-    <div class="col-md-4 col-lg-3 com-sm-6 border-info p-2" *ngFor="let product of products">
+    <div class="col-md-6 col-lg-3 com-sm-8 border-info p-2" *ngFor="let product of products">
       <a class="route-link" [routerLink]="['/products', product.id]"> 
       <div class="card">
            <div class="card-header pro-img">

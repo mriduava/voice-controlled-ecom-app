@@ -112,8 +112,6 @@ export class CartComponent implements OnInit {
 
       };
 
-
-
     // FUNCTIONS TO NAVIGATE
     const goToPro = () => {
       this.zone.run(() => this.router.navigateByUrl('/products'))
@@ -130,12 +128,28 @@ export class CartComponent implements OnInit {
       speechSynthesis.cancel();
     }
 
-    // TO ACTIVE KEY CONTROL
+    const playAudio = () => {
+      let audio = new Audio();
+      audio.src = "./assets/bleep.wav";
+      audio.load();
+      audio.volume = 0.1;
+      audio.play();
+    }
+    // KEYBOARD EVENT
+    let keyPressed = false;
     this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-      if(keyEvent.code === 17){
+      if(keyPressed === false && keyEvent.code === 17){
+        speechSynthesis.cancel();
         recognition.start();
+        playAudio();
+        keyPressed = true;
+        setTimeout(checkKeyPressed, 10000);
       }
     });
+
+    function checkKeyPressed(){
+      return keyPressed = false;
+    }
 
     const removeProduct = (cmd: string)=>{
       this.cartData.forEach((product, i)=>{ 

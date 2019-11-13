@@ -72,19 +72,37 @@ export class ProductsComponent implements OnInit {
         recognition.stop()
       }
 
+      const playAudio = () => {
+        let audio = new Audio();
+        audio.src = "./assets/bleep.wav";
+        audio.load();
+        audio.volume = 0.1;
+        audio.play();
+      }
+
       // KEYBOARD CONTROL
+      let keyPressed = false;
       this.keyListen.onKeyPressed.subscribe((keyEvent: NgxKeyboardEvent) => {
-        if(keyEvent.code === 17){
-          recognition.start();
+        if(keyPressed === false && keyEvent.code === 17){
           speechSynthesis.cancel();
+          recognition.start();
+          playAudio();
+          keyPressed = true;
+          setTimeout(checkKeyPressed, 10000);
         }
       });
+
+      function checkKeyPressed(){
+        return keyPressed = false;
+      }
 
       // TO FILTER PRODUCT BY COMMAND
       const filterProduct = (cmd: string)=>{
         this.products.filter(product=>{     
            if(product.content.title.toLowerCase() == cmd.toLowerCase()){
-             this.zone.run(() => this.router.navigate(['/products', product.id], { relativeTo: this.route }))
+             this.zone.run(() => this.router.navigate(['/products', product.id], { relativeTo: this.route }));
+             recognition.stop();
+             checkKeyPressed();
            };
          })
        }
